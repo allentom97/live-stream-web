@@ -1,0 +1,22 @@
+.previews-container{
+    margin: $xs-size;
+    height: 90vh;
+    overflow: auto;
+}
+
+.preview-container{
+    margin: $xs-size;
+    flex-wrap: nowrap;
+}
+
+.preview-text{
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: $s-size;
+}
+
+.preview-video{
+    max-width: 100%;
+    height: auto;
+    border: 0.2rem solid white;
+}

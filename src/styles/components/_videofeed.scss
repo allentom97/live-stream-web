@@ -1,0 +1,21 @@
+.director-container{
+    flex: 3;
+}
+
+.current-stream{
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: $s-size;
+    margin-left: $m-size;
+}
+
+.video-container{
+    margin: $xs-size;
+}
+
+.video-player{
+    margin-left: $m-size;
+    min-width: 1000px;
+    min-height: 100%;
+    border: 0.2rem solid white;
+}
