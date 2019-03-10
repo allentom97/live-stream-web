@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import io from 'socket.io-client';
-import { timingSafeEqual } from 'crypto';
 
 const socket = io('http://localhost:6500');
 const pcConfig = {
@@ -10,119 +9,125 @@ const pcConfig = {
 		'urls': 'stun:stun.l.google.com:19032'
 	}]
 };
-const offerOptions = {'OfferToReceiveAudio':true,'OfferToReceiveVideo':true};
+const answerOptions = {'OfferToReceiveAudio':true,'OfferToReceiveVideo':true};
 
-let pc = new RTCPeerConnection(pcConfig);
+let peers = {}
+let container;
+let sockets = {}
+let counter = 0;
 
-// send any ice candidates to the other peer
-pc.onicecandidate = ({candidate}) => {
-	if (candidate !== undefined){
-		sendMessage({
-			sender: 'web',
-			type: 'candidate',
-			candidate: candidate
-		});
-	}
-}
-let counter = 0
 
-// // let the "negotiationneeded" event trigger offer generation
-// pc.onnegotiationneeded = async () => {
-//   try {
-	
-//   	stream.getTracks().forEach((track) => pc.addTrack(track, stream));
-//     await pc.setLocalDescription(await pc.createOffer({offerToReceiveVideo: true, offerToReceiveAudio: true}));
-//     // send the offer to the other peer
-//     sendMessage({
-//         sender: 'web',
-//         type: 'offer',
-//         label: pc.localDescription
-//     })
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
-
-//once remote track media arrives, show it in remote video element
-pc.ontrack = e => {
-	console.log(e.streams)
-	if (counter == 0){
-		document.getElementById('mainStream').srcObject = e.streams[0]
-		counter ++;
-	}
-  };
-
-setInterval(() => {
-	console.log(pc)
-}, 10000)
 
 // SERVER
 
 socket.on('connect', () => {
 	console.log('web client connected')
-	sendMessage({
-		sender: 'web', 
-		type: 'connected'
+	socket.emit('connected', {
+		sender: 'web'
 	})
-	console.log(pc)
 });
 
+socket.on('new-connection', (socketID, connections) => {
+	peers[socketID] = new RTCPeerConnection(pcConfig)
+	console.log('connections', connections)
+	console.log('peers', peers)
+	checkOnIceCandidate(socketID)
+	checkOnTrack(socketID, Object.keys(peers).indexOf(socketID))
+})
 
+socket.on('removed-connection', (connections)=> {
+	console.log('connections', connections)
+})
 
-socket.on('message-for-web', async (message)=> {
-	try{
+socket.on('message', async (fromID, message)=> {
+	if (peers[fromID]){
+		try{
 			if (message.type === 'offer'){
-				await pc.setRemoteDescription(message.label)
-				await pc.setLocalDescription(await pc.createAnswer(offerOptions));
-				sendMessage({
+				await peers[fromID].setRemoteDescription(message.label)
+				await peers[fromID].setLocalDescription(await peers[fromID].createAnswer(answerOptions));
+				sendMessage(fromID, {
 					sender: 'web',
 					type: 'answer',
-					label: pc.localDescription
+					label: peers[fromID].localDescription
 				})
-			} else if (message.type === 'answer'){
-				//mobile only one to send answer
 			} else if (message.type === 'candidate'){
 				if (message.candidate != null){
-					pc.addIceCandidate(message.candidate);
+					peers[fromID].addIceCandidate(message.candidate);
 				}
 			} else if (message.type === 'bye'){
+				peers[fromID].close()
+				delete peers[fromID]
+				console.log('peer deleted', peers)
 			}
-	} catch(error){
-		console.log(error)
+		} catch(error){
+			console.log(error)
+		}
 	}
 })
 
-function sendMessage(message){
-	socket.emit('message', message)
+function sendMessage(toID, message){
+	socket.emit('message', toID, message)
 }
 
+function checkOnIceCandidate(key){
+	peers[key].ononicecandidate = ({candidate}) => {
+		if (candidate !== undefined){
+			sendMessage(key, {
+				sender: 'web',
+				type: 'candidate',
+				candidate: candidate
+			});
+		}
+	}
+}
 
+function checkOnTrack(key, index){
+	peers[key].ontrack = e => {
+		document.getElementById(index.toString()).srcObject = e.streams[0]
+	}
+}
 
-let container
+setInterval(() => {
+
+	for (var key in peers) {	
+		var index = Object.keys(peers).indexOf(key);
+		if (peers.hasOwnProperty(key)) {
+			checkOnIceCandidate(key)
+
+			checkOnTrack(key, index)
+			
+		}
+	}
+
+}, 1000)
+
 
 export default class Dashboard extends Component {
 
 	constructor(props){
 		super(props);
-		this.videoRef = React.createRef();
-	}
+		this.state = {
+			sockets: [
+				{
+					1:1
+				},
+				{ 
+					2:2
+				}
+			],
+			currentStream: 0,
 
-	state = {
-		remoteSrc: null,
-		peers: {
-			1: 1, 
-			2: 2
-		},
-	}
-
-	updateVideoStream() {
-		if (this.videoRef.current.srcObject !== this.state.remoteSrc) {
-		  this.videoRef.current.srcObject = this.state.remoteSrc
 		}
-	  }
+	}
+
+	// setMainStream(){
+	// 	this.setState({
+	// 		currentStream: 1
+	// 	})
+	// }
 
 	componentDidMount(){
-		container = this;
+		//container = this;
 	}
 
 	render() {
@@ -135,19 +140,19 @@ export default class Dashboard extends Component {
 					<div>      
 						<div className="director-container"> 
 							<div className="video-container">  
-								<p className="current-stream">Currently Viewing Stream:</p>
-								<video playsInline autoPlay controls className="video-player" id='mainStream' ></video>
+								<p className="current-stream">Currently Viewing Stream: {this.currentStream}</p>
+								<video autoPlay controls className="video-player" id='mainStream' ></video>
 							</div>
 						</div>
 			  		</div>
 					<div>      
 					  	<div className="previews-container">
-						  	{ !this.state.peers &&
-								this.state.peers.map(( peer ) => {
+						  	{ this.state.sockets &&
+								this.state.sockets.map(( socket, index ) => {
 									return (
-										<div className="preview-container">
-											<p className="preview-text">Stream: {peer}</p>
-											<video autoplays='true' muted='true' className="preview-video"> </video>
+										<div key={index} className="preview-container">
+											<p className="preview-text">Stream: {index+1}</p>
+											<video autoPlay muted className="preview-video" id={index} > </video>
 										</div>
 									)
 								})
