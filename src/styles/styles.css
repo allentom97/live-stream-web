@@ -38,18 +38,46 @@ body {
 
 .preview-container {
   margin: 0.8rem;
-  flex-wrap: nowrap; }
+  flex-wrap: nowrap;
+  display: flex;
+  flex-direction: column; }
+
+.top-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center; }
 
 .preview-text {
   font-family: sans-serif;
   font-weight: bold;
-  font-size: 1.2rem; }
+  font-size: 1.2rem;
+  margin: 0.8rem; }
 
 .preview-video {
-  max-width: 100%;
-  height: auto;
+  max-width: 40vh;
+  height: 22.5vh;
   border: 0.2rem solid white;
   background-color: black; }
+
+.preview-button {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  align-self: center;
+  margin-left: 1.6rem; }
+
+.option-text {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0.8rem;
+  margin-left: 1.6rem; }
+
+.checkbox-text {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-left: 1.6rem; }
 
 .director-container {
   flex: 3; }
@@ -65,7 +93,48 @@ body {
 
 .video-player {
   margin-left: 1.6rem;
-  min-width: 1000px;
-  min-height: 100%;
+  max-width: 90vh;
+  height: 50.25vh;
   border: 0.2rem solid white;
   background-color: black; }
+
+.response-container {
+  margin: 0.8rem;
+  margin-left: 1.6rem;
+  display: flex;
+  flex-direction: column; }
+
+.response-message-container {
+  margin: 0.8rem;
+  margin-left: 1.6rem;
+  flex-direction: row; }
+
+.response-area {
+  height: 2vh;
+  width: 60vh;
+  resize: none;
+  margin-top: 1.6rem; }
+
+.response-button {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-left: 1.6rem; }
+
+.option-label {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-right: 1.6rem; }
+
+.option-area {
+  height: 2vh;
+  width: 10vh;
+  resize: none;
+  margin-left: 0.8rem; }
+
+.option-button {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-left: 1.6rem; }

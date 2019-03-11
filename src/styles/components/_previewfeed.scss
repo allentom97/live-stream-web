@@ -7,17 +7,50 @@
 .preview-container{
     margin: $xs-size;
     flex-wrap: nowrap;
+    display: flex;
+    flex-direction: column;
 }
 
+.top-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 .preview-text{
     font-family: sans-serif;
     font-weight: bold;
     font-size: $s-size;
+    margin: $xs-size;
 }
 
 .preview-video{
-    max-width: 100%;
-    height: auto;
+    max-width: 40vh;
+    height: 22.5vh;
     border: 0.2rem solid white;
     background-color: black;
+}
+
+.preview-button{
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: $s-size;
+    align-self: center;
+    margin-left: $m-size;
+
+}
+
+.option-text{
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: $s-size;
+    margin: $xs-size;
+    margin-left: $m-size;
+}
+
+.checkbox-text{
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: $s-size;
+
+    margin-left: $m-size;
 }

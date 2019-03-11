@@ -11,13 +11,12 @@
 
 .video-container{
     margin: $xs-size;
-    
 }
 
 .video-player{
     margin-left: $m-size;
-    min-width: 1000px;
-    min-height: 100%;
+    max-width: 90vh;
+    height: 50.25vh;
     border: 0.2rem solid white;
     background-color: black;
 }

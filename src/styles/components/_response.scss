@@ -1,0 +1,45 @@
+.response-container{
+    margin: $xs-size;
+    margin-left: $m-size;
+    display: flex;
+    flex-direction: column;
+}
+
+.response-message-container{
+    margin: $xs-size;
+    margin-left: $m-size;
+    flex-direction: row;
+}
+
+.response-area{
+    height: 2vh;
+    width: 60vh;
+    resize: none;
+    margin-top: $m-size
+}
+.response-button{
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: $s-size;
+    margin-left: $m-size;
+}
+
+.option-label{
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: $s-size;
+    margin-right: $m-size;
+}
+.option-area{
+    height: 2vh;
+    width: 10vh;
+    resize: none;
+    margin-left: $xs-size
+}
+
+.option-button{
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: $s-size;
+    margin-left: $m-size;
+}
