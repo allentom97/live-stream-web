@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Header from './Header';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:6500');
-//const socket = io('https://ldb-broadcasting.herokuapp.com:19276')
+//const socket = io('http://localhost:6500');
+const socket = io('http://ldb-broadcasting.herokuapp.com:80')
 const pcConfig = {
 	iceTransports: 'relay',
 	'iceServers': [{
@@ -14,6 +14,7 @@ const answerOptions = {'OfferToReceiveAudio':true,'OfferToReceiveVideo':true};
 
 let peers = {};
 let socketConnections = {};
+let stateContainer;
 
 // Socket
 
@@ -27,19 +28,28 @@ socket.on('connect', () => {
 socket.on('new-connection', (socketID, connections) => {
 	peers[socketID] = new RTCPeerConnection(pcConfig)
 	socketConnections = connections
-	console.log(socketConnections)
+	let socketArray = []
+	for(let x in socketConnections){
+		socketArray.push(x)
+	}
+	console.log('SA',socketArray)
+	stateContainer.setState({
+		sockets: socketArray
+	})
+	console.log('socketConnections',socketConnections)
 	console.log('peers', peers)
 	checkOnIceCandidate(socketID)
 	checkOnTrack(socketID, Object.keys(peers).indexOf(socketID))
+	
 })
 
 socket.on('removed-connection', (socketID, connections)=> {
-	console.log('connections', connections)
 	if (peers[socketID]){
 		peers[socketID].close()
 		delete peers[socketID]
 	}
 	socketConnections = connections
+	console.log('connections', socketConnections)
 })
 
 socket.on('message', async (socketID, message)=> {
@@ -68,22 +78,34 @@ socket.on('message', async (socketID, message)=> {
 	}
 })
 
+socket.on('options-response', (socketID, message) =>{	
+	var text = "Option: " + message
+	console.log('text', text)
+	document.getElementById(socketID).innerHTML = text
+})
+
 function sendMessage(toID, message){
 	socket.emit('message', toID, message)
 }
 
-// function sendOptions(toIDs, Options){
-// 	for(var id in toIDs){
-// 		var toID = Object.keys(socketConnections).indexOf(id+1)
-// 		console.log(options)
-// 		// socket.emit('options-message', toID, options)
-// 	}
-// }
+function sendOptions(toIDs, options){
+	var IDs = []
+	for(var i in toIDs){
+		IDs.push(Object.keys(socketConnections)[i])
+	}
+	for(var id in toIDs){
+		var otherIDs = IDs
+		var toID = Object.keys(socketConnections)[id]
+		var spliceIndex = IDs.indexOf(toID)
+		otherIDs.splice(spliceIndex, 1)
+		socket.emit('options-message', toID, otherIDs, options)
+	}
+}
 
-function sendText(toIDs, Text){
+function sendText(toIDs, message){
 	for(var id in toIDs){
 		var toID = Object.keys(socketConnections)[id]
-		socket.emit('text-message', toID, Text)
+		socket.emit('text-message', toID, message)
 	}
 }
 
@@ -98,7 +120,6 @@ function checkOnIceCandidate(key){
 		}
 	}
 }
-
 
 function checkOnTrack(key, index){
 	peers[key].ontrack = e => {
@@ -122,15 +143,6 @@ export default class Dashboard extends Component {
 	constructor(props){
 		super(props);
 		
-		this.state = {
-			sockets: [1, 2],
-			currentStream: 0,
-			checked: [],
-			message: '',
-			optionOne: '',
-			optionTwo: '',
-			optionThree: '',
-		}
 
 		this.onSendText = this.onSendText.bind(this)
 		this.onSendOptions = this.onSendOptions.bind(this)
@@ -138,6 +150,16 @@ export default class Dashboard extends Component {
 		this.optionOneOnChange = this.optionOneOnChange.bind(this)
 		this.optionTwoOnChange = this.optionTwoOnChange.bind(this)
 		this.optionThreeOnChange = this.optionThreeOnChange.bind(this)
+	}
+
+	state = {
+		sockets:[],
+		currentStream: 0,
+		checked: [],
+		message: '',
+		optionOne: '',
+		optionTwo: '',
+		optionThree: '',
 	}
 
 
@@ -150,7 +172,7 @@ export default class Dashboard extends Component {
 	}
 	
 	componentDidMount(){
-	
+		stateContainer = this;	
 	}
 
 	onChecked(index){
@@ -171,26 +193,41 @@ export default class Dashboard extends Component {
 
 	onSendOptions(){
 		if(this.state.checked.length !== 0){
-			var optionOne = this.state.optionOne
-			var optionTwo = this.state.optionTwo
-			var optionThree = this.state.optionThree
-			console.log(optionOne, optionTwo, optionThree)
-			this.setState({
-				optionOne: '',
-				optionTwo: '',
-				optionThree: ''
-			})
+			if(this.state.optionOne !== '' || this.state.optionTwo !== ''  || this.state.optionThree !== '' ){
+				let options = [];
+				if(this.state.optionOne !== ''){
+					options.push(this.state.optionOne)
+				}
+				if(this.state.optionTwo !== ''){
+					options.push(this.state.optionTwo)
+				}
+				if(this.state.optionThree !== ''){
+					options.push(this.state.optionThree)
+				}
+				console.log("options", options)
+				sendOptions(this.state.checked, options)
+				this.setState({
+					optionOne: '',
+					optionTwo: '',
+					optionThree: ''
+				});
+			} else {
+				alert('Please fill in at least one option')
+			}
 		} else {
 			alert('No Recipients Selected')
 		}
 	}
 	onSendText(){
 		if(this.state.checked.length !== 0){
-			var toIDs = this.state.checked
-			sendText(this.state.checked, this.state.message)
-			this.setState({
-				message: ''
-			})
+			if(this.state.message !== ''){
+				sendText(this.state.checked, this.state.message)
+				this.setState({
+					message: ''
+				})
+			} else {
+				alert('Please enter a message')
+			}
 		} else {
 			alert('No Recipients Selected')
 		}
@@ -263,7 +300,7 @@ export default class Dashboard extends Component {
 													Message:
 													<input type="checkbox" onChange={() => this.onChecked(index)} />	
 												</label>
-												<p className="option-text">Option:</p>
+												<p className="option-text" id={socket}>Option:</p>
 											</div>
 											<video autoPlay muted className="preview-video" id={index}> </video>
 										</div>
