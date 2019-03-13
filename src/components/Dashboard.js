@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Header from './Header';
 import io from 'socket.io-client';
 
-//const socket = io('http://localhost:6500');
-const socket = io('http://ldb-broadcasting.herokuapp.com:80')
+const socket = io('http://localhost:6500');
+//const socket = io('http://ldb-broadcasting.herokuapp.com:80')
 const pcConfig = {
 	iceTransports: 'relay',
 	'iceServers': [{
@@ -30,11 +30,11 @@ socket.on('new-connection', (socketID, connections) => {
 	socketConnections = connections
 	let socketArray = []
 	for(let x in socketConnections){
-		socketArray.push(x)
+		socketArray.push(socketConnections[x])
 	}
 	console.log('SA',socketArray)
 	stateContainer.setState({
-		sockets: socketArray
+		connections: socketArray
 	})
 	console.log('socketConnections',socketConnections)
 	console.log('peers', peers)
@@ -49,7 +49,13 @@ socket.on('removed-connection', (socketID, connections)=> {
 		delete peers[socketID]
 	}
 	socketConnections = connections
-	console.log('connections', socketConnections)
+	let socketArray = []
+	for(let x in socketConnections){
+		socketArray.push(socketConnections[x])
+	}
+	stateContainer.setState({
+		connections: socketArray
+	})
 })
 
 socket.on('message', async (socketID, message)=> {
@@ -78,10 +84,10 @@ socket.on('message', async (socketID, message)=> {
 	}
 })
 
-socket.on('options-response', (socketID, message) =>{	
+socket.on('options-response', (socketName, message) =>{	
 	var text = "Option: " + message
 	console.log('text', text)
-	document.getElementById(socketID).innerHTML = text
+	document.getElementById(socketName).innerHTML = text
 })
 
 function sendMessage(toID, message){
@@ -94,11 +100,8 @@ function sendOptions(toIDs, options){
 		IDs.push(Object.keys(socketConnections)[i])
 	}
 	for(var id in toIDs){
-		var otherIDs = IDs
 		var toID = Object.keys(socketConnections)[id]
-		var spliceIndex = IDs.indexOf(toID)
-		otherIDs.splice(spliceIndex, 1)
-		socket.emit('options-message', toID, otherIDs, options)
+		socket.emit('options-message', toID, IDs, options)
 	}
 }
 
@@ -143,7 +146,6 @@ export default class Dashboard extends Component {
 	constructor(props){
 		super(props);
 		
-
 		this.onSendText = this.onSendText.bind(this)
 		this.onSendOptions = this.onSendOptions.bind(this)
 		this.messageOnChange = this.messageOnChange.bind(this)
@@ -154,7 +156,7 @@ export default class Dashboard extends Component {
 
 	state = {
 		sockets:[],
-		currentStream: 0,
+		currentStream: '',
 		checked: [],
 		message: '',
 		optionOne: '',
@@ -162,12 +164,11 @@ export default class Dashboard extends Component {
 		optionThree: '',
 	}
 
-
-	onPreviewClicked(index){
+	onPreviewClicked(index, connection){
 		var stream = document.getElementById(index.toString()).srcObject
 		document.getElementById('mainStream').srcObject = stream
 		this.setState({
-			currentStream: index+1
+			currentStream: connection
 		})
 	}
 	
@@ -175,16 +176,16 @@ export default class Dashboard extends Component {
 		stateContainer = this;	
 	}
 
-	onChecked(index){
+	onChecked(connection){
 		var check = this.state.checked
-		if(check.includes(index)){
-			var spliceIndex = check.indexOf(index)
+		if(check.includes(connection)){
+			var spliceIndex = check.indexOf(connection)
 			check.splice(spliceIndex, 1)
 			this.setState({
 				checked: check
 			})
 		} else {
-			check.push(index)
+			check.push(connection)
 			this.setState({
 				checked: check
 			})
@@ -289,18 +290,18 @@ export default class Dashboard extends Component {
 			  		</div>
 					<div>      
 					  	<div className="previews-container">
-						  	{ this.state.sockets &&
-								this.state.sockets.map(( socket, index ) => {
+						  	{ this.state.connections &&
+								this.state.connections.map(( connection, index ) => {
 									return (
 										<div key={index} className="preview-container">
 											<div className="top-container">
-												<p className="preview-text">Stream: {index+1}</p>
-												<button className="preview-button" onClick={() => this.onPreviewClicked(index)} >View</button>
+												<p className="preview-text">Stream: {connection}</p>
+												<button className="preview-button" onClick={() => this.onPreviewClicked(index, connection)} >View</button>
 												<label className="checkbox-text">
 													Message:
-													<input type="checkbox" onChange={() => this.onChecked(index)} />	
+													<input type="checkbox" onChange={() => this.onChecked(connection)} />	
 												</label>
-												<p className="option-text" id={socket}>Option:</p>
+												<p className="option-text" id={connection}>Option:</p>
 											</div>
 											<video autoPlay muted className="preview-video" id={index}> </video>
 										</div>
