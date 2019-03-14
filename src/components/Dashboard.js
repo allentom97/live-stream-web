@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import Response from './Response';
 import Header from './Header';
+import Video from './Video';
+import Previews from './Previews';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:6500');
-//const socket = io('http://ldb-broadcasting.herokuapp.com:80')
+
+//const socket = io('http://localhost:6500');
+const socket = io('http://ldb-broadcasting.herokuapp.com:80')
 const pcConfig = {
 	iceTransports: 'relay',
 	'iceServers': [{
@@ -53,6 +57,7 @@ socket.on('removed-connection', (socketID, connections)=> {
 	for(let x in socketConnections){
 		socketArray.push(socketConnections[x])
 	}
+	console.log('socketConnections removed',socketConnections)
 	stateContainer.setState({
 		connections: socketArray
 	})
@@ -147,33 +152,57 @@ export default class Dashboard extends Component {
 		super(props);
 		
 		this.onSendText = this.onSendText.bind(this)
-		this.onSendOptions = this.onSendOptions.bind(this)
-		this.messageOnChange = this.messageOnChange.bind(this)
-		this.optionOneOnChange = this.optionOneOnChange.bind(this)
-		this.optionTwoOnChange = this.optionTwoOnChange.bind(this)
-		this.optionThreeOnChange = this.optionThreeOnChange.bind(this)
+		this.sendingOptions = this.sendingOptions.bind(this)
+		this.onChecked = this.onChecked.bind(this)
+		this.onPreviewClicked = this.onPreviewClicked.bind(this)
+		this.onOutputClicked = this.onOutputClicked.bind(this)
+		this.onStreamsClicked = this.onStreamsClicked.bind(this)
 	}
 
 	state = {
-		sockets:[],
+		connections:[],
 		currentStream: '',
 		checked: [],
-		message: '',
-		optionOne: '',
-		optionTwo: '',
-		optionThree: '',
+		flexDirect: {
+			flexDirection: 'column',
+			flexWrap: 'nowrap'
+		},
+		videoScreen: true,
+		directorStyle: {
+			flexDirection: 'row'
+		}
 	}
 
-	onPreviewClicked(index, connection){
-		var stream = document.getElementById(index.toString()).srcObject
-		document.getElementById('mainStream').srcObject = stream
-		this.setState({
-			currentStream: connection
-		})
-	}
+
 	
 	componentDidMount(){
 		stateContainer = this;	
+	}
+
+	onStreamsClicked(){
+		this.setState({
+			flexDirect: {
+				flexDirection: 'row',
+				flexWrap: 'wrap'
+			},
+			videoScreen: false,
+			directorStyle: {
+				flexDirection: 'column',
+				alignItems: 'center'
+			}
+		});
+	}
+	onOutputClicked(){
+		this.setState({
+			flexDirect: {
+				flexDirection: 'column',
+				flexWrap: 'nowrap'
+			},
+			videoScreen: true,
+			directorStyle: {
+				flexDirection: 'row'
+			}
+		});
 	}
 
 	onChecked(connection){
@@ -192,37 +221,18 @@ export default class Dashboard extends Component {
 		}
 	}
 
-	onSendOptions(){
-		if(this.state.checked.length !== 0){
-			if(this.state.optionOne !== '' || this.state.optionTwo !== ''  || this.state.optionThree !== '' ){
-				let options = [];
-				if(this.state.optionOne !== ''){
-					options.push(this.state.optionOne)
-				}
-				if(this.state.optionTwo !== ''){
-					options.push(this.state.optionTwo)
-				}
-				if(this.state.optionThree !== ''){
-					options.push(this.state.optionThree)
-				}
-				console.log("options", options)
-				sendOptions(this.state.checked, options)
-				this.setState({
-					optionOne: '',
-					optionTwo: '',
-					optionThree: ''
-				});
-			} else {
-				alert('Please fill in at least one option')
-			}
-		} else {
-			alert('No Recipients Selected')
-		}
+	onPreviewClicked(index, connection){
+		var stream = document.getElementById(index.toString()).srcObject;
+		document.getElementById('mainStream').srcObject = stream;
+		this.setState({
+			currentStream: connection
+		})
 	}
-	onSendText(){
+	
+	onSendText(message){
 		if(this.state.checked.length !== 0){
-			if(this.state.message !== ''){
-				sendText(this.state.checked, this.state.message)
+			if(message !== ''){
+				sendText(this.state.checked, message)
 				this.setState({
 					message: ''
 				})
@@ -234,81 +244,44 @@ export default class Dashboard extends Component {
 		}
 	}
 
-	messageOnChange(event){
-		this.setState({message: event.target.value});
+	sendingOptions(checked, options){
+		sendOptions(checked, options)
 	}
-
-	optionOneOnChange(event){
-		this.setState({optionOne: event.target.value});
-	}
-	optionTwoOnChange(event){
-		this.setState({optionTwo: event.target.value});
-	}
-	optionThreeOnChange(event){
-		this.setState({optionThree: event.target.value});
-	}
-
 
 	render() {
 
 		return (
 		<div>      
-			<Header />
+			<Header 
+				onOutputClicked={this.onOutputClicked}
+				onStreamsClicked={this.onStreamsClicked}
+				disabled={this.state.videoScreen}
+			/>
 			<div className="container">
-				<div className="dashboard-container">
-					<div>      
-						<div className="director-container"> 
-						
-							<div className="video-container">  
-								<p className="current-stream">Currently Viewing Stream: {this.state.currentStream}</p>
-								<video autoPlay muted controls className="video-player" id='mainStream' ></video>
-							</div>
+				<div className="dashboard-container" style={this.state.directorStyle}>
+					<div className="director-container">      
+						<div > 
+							{this.state.videoScreen && 		
+								<Video
+									currentStream={this.state.currentStream}
+								/>
+							}
 
-							<div className="response-container">
-								<div className="response-message-container">
-									<textarea className="response-area" rows="2" cols="100" value={this.state.message} onChange={this.messageOnChange}></textarea>
-									<button className="response-button" onClick={this.onSendText}>Send Message</button>
-								</div>
-								<div className="response-options-container">
-									<label className="option-label">
-										Option One: 
-										<textarea className="option-area" rows="2" cols="25" value={this.state.optionOne} onChange={this.optionOneOnChange}></textarea>
-									</label>
-									<label className="option-label">
-										Option Two: 
-										<textarea className="option-area" rows="2" cols="25" value={this.state.optionTwo} onChange={this.optionTwoOnChange}></textarea>
-									</label>
-									<label className="option-label">
-										Option Three: 
-										<textarea className="option-area" rows="2" cols="25" value={this.state.optionThree} onChange={this.optionThreeOnChange}></textarea>
-									</label>
-									<button className="option-button" onClick={this.onSendOptions}>Send Options</button>
-								</div>
-							</div>
-
+							<Response 
+								videoScreen={this.state.videoScreen}
+								onSendText={this.onSendText}
+								checked={this.state.checked}
+								sendingOptions={this.sendingOptions}
+							/>	
 						</div>
 			  		</div>
 					<div>      
-					  	<div className="previews-container">
-						  	{ this.state.connections &&
-								this.state.connections.map(( connection, index ) => {
-									return (
-										<div key={index} className="preview-container">
-											<div className="top-container">
-												<p className="preview-text">Stream: {connection}</p>
-												<button className="preview-button" onClick={() => this.onPreviewClicked(index, connection)} >View</button>
-												<label className="checkbox-text">
-													Message:
-													<input type="checkbox" onChange={() => this.onChecked(connection)} />	
-												</label>
-												<p className="option-text" id={connection}>Option:</p>
-											</div>
-											<video autoPlay muted className="preview-video" id={index}> </video>
-										</div>
-									)
-								})
-							}   
-						</div>
+						<Previews 
+							flexDirect={this.state.flexDirect}
+							connections={this.state.connections}
+							onChecked={this.onChecked}
+							onPreviewClicked={this.onPreviewClicked} 
+					 	 />
 				  	</div>
 				</div>
 			</div>
@@ -316,4 +289,6 @@ export default class Dashboard extends Component {
 	);
 	}
 }
+
+
 

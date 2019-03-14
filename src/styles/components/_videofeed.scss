@@ -1,12 +1,13 @@
 .director-container{
-    flex: 3;
+    display: 'flex';
+    justify-content: 'center';
+    align-content: center;
 }
 
 .current-stream{
     font-family: sans-serif;
     font-weight: bold;
     font-size: $s-size;
-    margin-left: $m-size;
 }
 
 .video-container{
@@ -14,7 +15,6 @@
 }
 
 .video-player{
-    margin-left: $m-size;
     width: 90vh;
     height: 50.25vh;
     border: 0.2rem solid white;

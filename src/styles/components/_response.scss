@@ -1,27 +1,46 @@
 .response-container{
-    margin: $xs-size;
-    margin-left: $m-size;
+    margin: auto;
+    margin-top: $s-size;
+    width: 45vw;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    background-color: white;
+    padding: $l-size;
+    border: 0.2rem solid grey;
+    align-items: center;
+    flex-wrap: nowrap;
+    align-self: center;
 }
 
 .response-message-container{
     margin: $xs-size;
-    margin-left: $m-size;
     flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    align-content: center;
+}
+
+.response-options-container{
+    margin: $xs-size;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    align-content: center;
 }
 
 .response-area{
-    height: 2vh;
     width: 60vh;
     resize: none;
-    margin-top: $m-size
+    margin-top: $m-size;
+    flex-wrap: nowrap;
 }
 .response-button{
     font-family: sans-serif;
     font-weight: bold;
     font-size: $s-size;
     margin-left: $m-size;
+    flex-wrap: nowrap;
 }
 
 .option-label{
@@ -31,7 +50,6 @@
     margin-right: $m-size;
 }
 .option-area{
-    height: 2vh;
     width: 10vh;
     resize: none;
     margin-left: $xs-size

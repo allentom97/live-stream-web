@@ -2,12 +2,12 @@
     margin: $xs-size;
     height: 90vh;
     overflow: auto;
+    display: flex;
 }
 
 .preview-container{
     margin: $xs-size;
     flex-wrap: nowrap;
-    display: flex;
     flex-direction: column;
 }
 

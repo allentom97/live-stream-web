@@ -34,12 +34,12 @@ body {
 .previews-container {
   margin: 0.8rem;
   height: 90vh;
-  overflow: auto; }
+  overflow: auto;
+  display: flex; }
 
 .preview-container {
   margin: 0.8rem;
   flex-wrap: nowrap;
-  display: flex;
   flex-direction: column; }
 
 .top-container {
@@ -80,46 +80,64 @@ body {
   margin-left: 1.6rem; }
 
 .director-container {
-  flex: 3; }
+  display: 'flex';
+  justify-content: 'center';
+  align-content: center; }
 
 .current-stream {
   font-family: sans-serif;
   font-weight: bold;
-  font-size: 1.2rem;
-  margin-left: 1.6rem; }
+  font-size: 1.2rem; }
 
 .video-container {
   margin: 0.8rem; }
 
 .video-player {
-  margin-left: 1.6rem;
   width: 90vh;
   height: 50.25vh;
   border: 0.2rem solid white;
   background-color: black; }
 
 .response-container {
-  margin: 0.8rem;
-  margin-left: 1.6rem;
+  margin: auto;
+  margin-top: 1.2rem;
+  width: 45vw;
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  overflow: hidden;
+  background-color: white;
+  padding: 3.2rem;
+  border: 0.2rem solid grey;
+  align-items: center;
+  flex-wrap: nowrap;
+  align-self: center; }
 
 .response-message-container {
   margin: 0.8rem;
-  margin-left: 1.6rem;
-  flex-direction: row; }
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  align-content: center; }
+
+.response-options-container {
+  margin: 0.8rem;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  align-content: center; }
 
 .response-area {
-  height: 2vh;
   width: 60vh;
   resize: none;
-  margin-top: 1.6rem; }
+  margin-top: 1.6rem;
+  flex-wrap: nowrap; }
 
 .response-button {
   font-family: sans-serif;
   font-weight: bold;
   font-size: 1.2rem;
-  margin-left: 1.6rem; }
+  margin-left: 1.6rem;
+  flex-wrap: nowrap; }
 
 .option-label {
   font-family: sans-serif;
@@ -128,7 +146,6 @@ body {
   margin-right: 1.6rem; }
 
 .option-area {
-  height: 2vh;
   width: 10vh;
   resize: none;
   margin-left: 0.8rem; }
