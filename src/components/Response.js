@@ -5,11 +5,11 @@ export default class Response extends Component{
         super(props);
 
 
-		this.messageOnChange = this.messageOnChange.bind(this)
-		this.optionOneOnChange = this.optionOneOnChange.bind(this)
-		this.optionTwoOnChange = this.optionTwoOnChange.bind(this)
-        this.optionThreeOnChange = this.optionThreeOnChange.bind(this)
-        this.onSendOptions = this.onSendOptions.bind(this)
+		this.messageOnChange = this.messageOnChange.bind(this);
+		this.optionOneOnChange = this.optionOneOnChange.bind(this);
+		this.optionTwoOnChange = this.optionTwoOnChange.bind(this);
+        this.optionThreeOnChange = this.optionThreeOnChange.bind(this);
+        this.onSendOptions = this.onSendOptions.bind(this);
     }
 
     state = {
@@ -39,26 +39,25 @@ export default class Response extends Component{
 			if(this.state.optionOne !== '' || this.state.optionTwo !== ''  || this.state.optionThree !== '' ){
 				let options = [];
 				if(this.state.optionOne !== ''){
-					options.push(this.state.optionOne)
+					options.push(this.state.optionOne);
 				}
 				if(this.state.optionTwo !== ''){
-					options.push(this.state.optionTwo)
+					options.push(this.state.optionTwo);
 				}
 				if(this.state.optionThree !== ''){
-					options.push(this.state.optionThree)
+					options.push(this.state.optionThree);
 				}
-				console.log("options", options)
-				this.props.sendingOptions(this.props.checked, options)
+				this.props.sendingOptions(this.props.checked, options);
 				this.setState({
 					optionOne: '',
 					optionTwo: '',
 					optionThree: ''
 				});
 			} else {
-				alert('Please fill in at least one option')
+				alert('Please fill in at least one option');
 			}
 		} else {
-			alert('No Recipients Selected')
+			alert('No Recipients Selected');
 		}
 	}
 

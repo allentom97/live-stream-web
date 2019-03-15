@@ -15,7 +15,7 @@ const Previews = (props) => (
                             </label>
                             <p className="option-text" id={connection}>Option:</p>
                         </div>
-                        <video autoPlay muted className="preview-video" id={index}> </video>
+                        <video autoPlay muted controls className="preview-video" id={index}> </video>
                     </div>
                 )
             })

@@ -6,8 +6,7 @@ import Previews from './Previews';
 import io from 'socket.io-client';
 
 
-//const socket = io('http://localhost:6500');
-const socket = io('http://ldb-broadcasting-server.herokuapp.com:80')
+const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
 const pcConfig = {
 	iceTransports: 'relay',
 	'iceServers': [{
@@ -23,97 +22,91 @@ let stateContainer;
 // Socket
 
 socket.on('connect', () => {
-	console.log('web client connected')
+	console.log('web client connected');
 	socket.emit('connected', {
 		sender: 'web'
-	})
+	});
 });
 
 socket.on('new-connection', (socketID, connections) => {
-	peers[socketID] = new RTCPeerConnection(pcConfig)
-	socketConnections = connections
-	let socketArray = []
+	peers[socketID] = new RTCPeerConnection(pcConfig);
+	socketConnections = connections;
+	let socketArray = [];
 	for(let x in socketConnections){
-		socketArray.push(socketConnections[x])
+		socketArray.push(socketConnections[x]);
 	}
-	console.log('SA',socketArray)
 	stateContainer.setState({
 		connections: socketArray
-	})
-	console.log('socketConnections',socketConnections)
-	console.log('peers', peers)
-	checkOnIceCandidate(socketID)
-	checkOnTrack(socketID, Object.keys(peers).indexOf(socketID))
+	});
+	checkOnIceCandidate(socketID);
+	checkOnTrack(socketID, Object.keys(peers).indexOf(socketID));
 	
-})
+});
 
 socket.on('removed-connection', (socketID, connections)=> {
 	if (peers[socketID]){
-		peers[socketID].close()
-		delete peers[socketID]
+		peers[socketID].close();
+		delete peers[socketID];
 	}
-	socketConnections = connections
-	let socketArray = []
+	socketConnections = connections;
+	let socketArray = [];
 	for(let x in socketConnections){
-		socketArray.push(socketConnections[x])
-	}
-	console.log('socketConnections removed',socketConnections)
+		socketArray.push(socketConnections[x]);
+	};
 	stateContainer.setState({
 		connections: socketArray
-	})
-})
+	});
+});
 
 socket.on('message', async (socketID, message)=> {
 	if (peers[socketID]){
 		try{
 			if (message.type === 'offer'){
-				await peers[socketID].setRemoteDescription(message.label)
+				await peers[socketID].setRemoteDescription(message.label);
 				await peers[socketID].setLocalDescription(await peers[socketID].createAnswer(answerOptions));
 				sendMessage(socketID, {
 					sender: 'web',
 					type: 'answer',
 					label: peers[socketID].localDescription
-				})
+				});
 			} else if (message.type === 'candidate'){
 				if (message.candidate != null){
 					peers[socketID].addIceCandidate(message.candidate);
 				}
 			} else if (message.type === 'bye'){
-				peers[socketID].close()
-				delete peers[socketID]
-				console.log('peer deleted', peers)
+				peers[socketID].close();
+				delete peers[socketID];
 			}
 		} catch(error){
-			console.log(error)
+			console.log(error);
 		}
 	}
-})
+});
 
 socket.on('options-response', (socketName, message) =>{	
-	var text = "Option: " + message
-	console.log('text', text)
-	document.getElementById(socketName).innerHTML = text
-})
+	var text = "Option: " + message;
+	document.getElementById(socketName).innerHTML = text;
+});
 
 function sendMessage(toID, message){
-	socket.emit('message', toID, message)
-}
+	socket.emit('message', toID, message);
+};
 
 function sendOptions(toIDs, options){
-	var IDs = []
+	var IDs = [];
 	for(var i in toIDs){
-		IDs.push(Object.keys(socketConnections)[i])
+		IDs.push(Object.keys(socketConnections)[i]);
 	}
 	for(var id in toIDs){
-		var toID = Object.keys(socketConnections)[id]
-		socket.emit('options-message', toID, IDs, options)
+		var toID = Object.keys(socketConnections)[id];
+		socket.emit('options-message', toID, IDs, options);
 	}
-}
+};
 
 function sendText(toIDs, message){
 	for(var id in toIDs){
-		var toID = Object.keys(socketConnections)[id]
-		socket.emit('text-message', toID, message)
+		var toID = Object.keys(socketConnections)[id];
+		socket.emit('text-message', toID, message);
 	}
 }
 
@@ -127,23 +120,23 @@ function checkOnIceCandidate(key){
 			});
 		}
 	}
-}
+};
 
 function checkOnTrack(key, index){
 	peers[key].ontrack = e => {
-		document.getElementById(index.toString()).srcObject = e.streams[0]
+		document.getElementById(index.toString()).srcObject = e.streams[0];
 	}
-}
+};
 
 setInterval(() => {
 	for (var key in socketConnections) {	
 		var index = Object.keys(peers).indexOf(key);
 		if (peers.hasOwnProperty(key)) {
-			checkOnIceCandidate(key)
-			checkOnTrack(key, index)			
+			checkOnIceCandidate(key);
+			checkOnTrack(key, index);			
 		}
 	}
-}, 1000)
+}, 1000);
 
 
 export default class Dashboard extends Component {
@@ -151,16 +144,16 @@ export default class Dashboard extends Component {
 	constructor(props){
 		super(props);
 		
-		this.onSendText = this.onSendText.bind(this)
-		this.sendingOptions = this.sendingOptions.bind(this)
-		this.onChecked = this.onChecked.bind(this)
-		this.onPreviewClicked = this.onPreviewClicked.bind(this)
-		this.onOutputClicked = this.onOutputClicked.bind(this)
-		this.onStreamsClicked = this.onStreamsClicked.bind(this)
+		this.onSendText = this.onSendText.bind(this);
+		this.sendingOptions = this.sendingOptions.bind(this);
+		this.onChecked = this.onChecked.bind(this);
+		this.onPreviewClicked = this.onPreviewClicked.bind(this);
+		this.onOutputClicked = this.onOutputClicked.bind(this);
+		this.onStreamsClicked = this.onStreamsClicked.bind(this);
 	}
 
 	state = {
-		connections:[],
+		connections:[1,2,3,4,5,6,7,8,9,10],
 		currentStream: '',
 		checked: [],
 		flexDirect: {
@@ -210,47 +203,47 @@ export default class Dashboard extends Component {
 	}
 
 	onChecked(connection){
-		var check = this.state.checked
+		var check = this.state.checked;
 		if(check.includes(connection)){
-			var spliceIndex = check.indexOf(connection)
-			check.splice(spliceIndex, 1)
+			var spliceIndex = check.indexOf(connection);
+			check.splice(spliceIndex, 1);
 			this.setState({
 				checked: check
-			})
+			});
 		} else {
-			check.push(connection)
+			check.push(connection);
 			this.setState({
 				checked: check
-			})
+			});
 		}
-	}
+	};
 
 	onPreviewClicked(index, connection){
 		var stream = document.getElementById(index.toString()).srcObject;
 		document.getElementById('mainStream').srcObject = stream;
 		this.setState({
 			currentStream: connection
-		})
-	}
+		});
+	};
 	
 	onSendText(message){
 		if(this.state.checked.length !== 0){
 			if(message !== ''){
-				sendText(this.state.checked, message)
+				sendText(this.state.checked, message);
 				this.setState({
 					message: ''
-				})
+				});
 			} else {
 				alert('Please enter a message')
 			}
 		} else {
 			alert('No Recipients Selected')
 		}
-	}
+	};
 
 	sendingOptions(checked, options){
-		sendOptions(checked, options)
-	}
+		sendOptions(checked, options);
+	};
 
 	render() {
 
