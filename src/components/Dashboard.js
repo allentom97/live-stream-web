@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 
 
 //const socket = io('http://localhost:6500');
-const socket = io('http://ldb-broadcasting.herokuapp.com:80')
+const socket = io('http://ldb-broadcasting-server.herokuapp.com:80')
 const pcConfig = {
 	iceTransports: 'relay',
 	'iceServers': [{
