@@ -9,4 +9,16 @@
     font-size: $m-size;
     padding: 0;
     margin-left: $s-size;
+    padding-right: $s-size;
+    border-right: .2rem solid darken($burnt-orange, 10);
+}
+
+.header-button{
+    margin: 0 0 0 $s-size;
+    padding-right: $s-size;
+    border: none;
+    border-right: .2rem solid darken($burnt-orange, 10);
+    background: $burnt-orange;
+    font-size: $s-size;
+    color: black;
 }

@@ -8,25 +8,16 @@
     background-color: white;
     padding: $l-size;
     border: 0.2rem solid grey;
-    align-items: center;
     flex-wrap: nowrap;
     align-self: center;
+    align-items: center;
 }
 
 .response-message-container{
     margin: $xs-size;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: center;
-    align-content: center;
-}
-
-.response-options-container{
-    margin: $xs-size;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    align-content: center;
+    vertical-align: middle;
 }
 
 .response-area{
@@ -43,6 +34,13 @@
     flex-wrap: nowrap;
 }
 
+.response-options-container{
+    margin: $xs-size;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    vertical-align: middle;
+}
+
 .option-label{
     font-family: sans-serif;
     font-weight: bold;
@@ -52,7 +50,8 @@
 .option-area{
     width: 10vh;
     resize: none;
-    margin-left: $xs-size
+    margin-left: $xs-size;
+    vertical-align: middle;
 }
 
 .option-button{

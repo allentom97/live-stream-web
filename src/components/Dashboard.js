@@ -188,7 +188,9 @@ export default class Dashboard extends Component {
 			videoScreen: false,
 			directorStyle: {
 				flexDirection: 'column',
-				alignItems: 'center'
+				alignItems: 'center',
+				position: 'sticky',
+				
 			}
 		});
 	}
