@@ -8,7 +8,7 @@ const Previews = (props) => (
                     <div key={index} className="preview-container">
                         <div className="top-container">
                             <p className="preview-text">Stream: {connection}</p>
-                            <button className="preview-button" onClick={() => props.onPreviewClicked(index, connection)} >View</button>
+                            <button disabled={!props.disabled} className="preview-button" onClick={() => props.onPreviewClicked(index, connection)} >View</button>
                             <label className="checkbox-text">
                                 Message:
                                 <input type="checkbox" onChange={() => props.onChecked(connection)} />	

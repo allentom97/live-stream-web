@@ -15,7 +15,7 @@ const pcConfig = {
 	}]
 };
 const answerOptions = {'OfferToReceiveAudio':true,'OfferToReceiveVideo':true};
-
+const adapter = require("webrtc-adapter");
 let peers = {};
 let socketConnections = {};
 let stateContainer;
@@ -183,14 +183,15 @@ export default class Dashboard extends Component {
 		this.setState({
 			flexDirect: {
 				flexDirection: 'row',
-				flexWrap: 'wrap'
+				flexWrap: 'wrap',
+				justifyContent: 'center'
 			},
+			currentStream: '',
 			videoScreen: false,
 			directorStyle: {
 				flexDirection: 'column',
 				alignItems: 'center',
-				position: 'sticky',
-				
+				position: 'sticky'
 			}
 		});
 	}
@@ -198,11 +199,12 @@ export default class Dashboard extends Component {
 		this.setState({
 			flexDirect: {
 				flexDirection: 'column',
-				flexWrap: 'nowrap'
+				flexWrap: 'nowrap',
 			},
 			videoScreen: true,
 			directorStyle: {
-				flexDirection: 'row'
+				flexDirection: 'row',
+				
 			}
 		});
 	}
@@ -279,6 +281,7 @@ export default class Dashboard extends Component {
 			  		</div>
 					<div>      
 						<Previews 
+							disabled={this.state.videoScreen}	
 							flexDirect={this.state.flexDirect}
 							connections={this.state.connections}
 							onChecked={this.onChecked}
