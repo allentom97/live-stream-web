@@ -153,7 +153,7 @@ export default class Dashboard extends Component {
 	}
 
 	state = {
-		connections:[1,2,3,4,5,6,7,8,9,10,11],
+		connections:[],
 		currentStream: '',
 		checked: [],
 		flexDirect: {
