@@ -6,8 +6,8 @@ import Previews from './Previews';
 import io from 'socket.io-client';
 
 
-//const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
-const socket = io('localhost:6500');
+const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
+//const socket = io('localhost:6500');
 const pcConfig = {
 	iceTransports: 'relay',
 	'iceServers': [{
@@ -110,11 +110,8 @@ function sendOptions(toIDs, options){
 };
 
 function sendText(toIDs, message){
-	console.log(toIDs, 'toIDs')
 	for(var id in toIDs){
-		console.log(id, 'id')
 		var toID = Object.keys(socketConnections)[id];
-		console.log(toID, 'toID')
 		socket.emit('text-message', toID, message);
 	}
 }
