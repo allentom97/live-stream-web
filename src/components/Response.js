@@ -9,7 +9,8 @@ export default class Response extends Component{
 		this.optionOneOnChange = this.optionOneOnChange.bind(this);
 		this.optionTwoOnChange = this.optionTwoOnChange.bind(this);
         this.optionThreeOnChange = this.optionThreeOnChange.bind(this);
-        this.onSendOptions = this.onSendOptions.bind(this);
+		this.onSendOptions = this.onSendOptions.bind(this);
+		this.onSendMessage = this.onSendMessage.bind(this);
     }
 
     state = {
@@ -59,6 +60,13 @@ export default class Response extends Component{
 		} else {
 			alert('No Recipients Selected');
 		}
+	} 
+
+	onSendMessage(){
+		this.props.onSendText(this.state.message)
+		this.setState({
+			message: ''
+		});
 	}
 
     componentDidMount(){
@@ -70,7 +78,7 @@ export default class Response extends Component{
             <div className="response-container">
                 <div className="response-message-container">
                     <textarea className="response-area" rows="1" cols="100" value={this.state.message} onChange={this.messageOnChange}></textarea>
-                    <button className="response-button" onClick={() => this.props.onSendText(this.state.message)}>Send Message</button>
+                    <button className="response-button" onClick={this.onSendMessage}>Send Message</button>
                 </div>
                 <div className="response-options-container">
                     <label className="option-label">

@@ -251,9 +251,6 @@ export default class Dashboard extends Component {
 		if(this.state.checked.length !== 0){
 			if(message !== ''){
 				sendText(this.state.checked, message);
-				this.setState({
-					message: ''
-				});
 			} else {
 				alert('Please enter a message')
 			}
