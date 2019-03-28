@@ -6,7 +6,8 @@ import Previews from './Previews';
 import io from 'socket.io-client';
 
 
-const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
+//const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
+const socket = io('localhost:6500');
 const pcConfig = {
 	iceTransports: 'relay',
 	'iceServers': [{
@@ -92,6 +93,11 @@ function sendMessage(toID, message){
 	socket.emit('message', toID, message);
 };
 
+function sendAir(id , message){
+	var toID = Object.keys(socketConnections).find(key => socketConnections[key] === id);
+	socket.emit('air', toID, message)
+}
+
 function sendOptions(toIDs, options){
 	var IDs = [];
 	for(var i in toIDs){
@@ -104,8 +110,11 @@ function sendOptions(toIDs, options){
 };
 
 function sendText(toIDs, message){
+	console.log(toIDs, 'toIDs')
 	for(var id in toIDs){
+		console.log(id, 'id')
 		var toID = Object.keys(socketConnections)[id];
+		console.log(toID, 'toID')
 		socket.emit('text-message', toID, message);
 	}
 }
@@ -154,7 +163,7 @@ export default class Dashboard extends Component {
 
 	state = {
 		connections:[],
-		currentStream: '',
+		currentStream: undefined,
 		checked: [],
 		flexDirect: {
 			flexDirection: 'column',
@@ -163,7 +172,8 @@ export default class Dashboard extends Component {
 		videoScreen: true,
 		directorStyle: {
 			flexDirection: 'row'
-		}
+		},
+		liveID: ''
 	}
 
 
@@ -173,13 +183,18 @@ export default class Dashboard extends Component {
 	}
 
 	onStreamsClicked(){
+		if (this.currentStream !== '') {
+			sendAir(this.state.currentStream, {
+				type: 'off-air'
+			});
+		}
 		this.setState({
 			flexDirect: {
 				flexDirection: 'row',
 				flexWrap: 'wrap',
 				justifyContent: 'center'
 			},
-			currentStream: '',
+			currentStream: undefined,
 			videoScreen: false,
 			directorStyle: {
 				flexDirection: 'column',
@@ -221,8 +236,16 @@ export default class Dashboard extends Component {
 	onPreviewClicked(index, connection){
 		var stream = document.getElementById(index.toString()).srcObject;
 		document.getElementById('mainStream').srcObject = stream;
+		if (this.currentStream !== undefined) {
+			sendAir(this.state.currentStream, {
+				type: 'off-air'
+			});
+		}
 		this.setState({
 			currentStream: connection
+		});
+		sendAir(connection, {
+			type: 'on-air'
 		});
 		var videoE = document.getElementById('mainStream'); videoE.muted = false;
 	};
