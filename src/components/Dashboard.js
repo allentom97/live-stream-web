@@ -10,9 +10,24 @@ const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
 //const socket = io('localhost:6500');
 const pcConfig = {
 	iceTransports: 'relay',
-	'iceServers': [{
+	'iceServers': [
+		{
 		'urls': 'stun:stun.l.google.com:19032'
-	}]
+		},
+        {
+            "url": "stun:stun1.l.google.com:19302"
+        },
+        {
+            "url": "stun:stun2.l.google.com:19302"
+        },
+        {
+            "url": "stun:stun3.l.google.com:19302"
+        },
+        {
+            "url": "stun:stun4.l.google.com:19302"
+        }
+
+	]
 };
 const answerOptions = {'OfferToReceiveAudio':true,'OfferToReceiveVideo':true};
 const adapter = require("webrtc-adapter");
