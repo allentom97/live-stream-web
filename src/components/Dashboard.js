@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 
 
 const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
-//const socket = io('localhost:6500');
+//const socket = io('localhost:6500'); -> for local testing
 const pcConfig = {
 	iceTransports: 'relay',
 	'iceServers': [
@@ -38,7 +38,6 @@ let stateContainer;
 // Socket
 
 socket.on('connect', () => {
-	console.log('web client connected');
 	socket.emit('connected', {
 		sender: 'web'
 	});
