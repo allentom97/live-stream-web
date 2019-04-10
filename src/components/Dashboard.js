@@ -63,7 +63,7 @@ socket.on('removed-connection', (socketID, connections)=> {
 		peers[socketID].close();
 		delete peers[socketID];
 	}
-	console.log(stateContainer.checked)
+	Dashboard.onDisconnect(connections[socketID])
 	socketConnections = connections;
 	let socketArray = [];
 	for(let x in socketConnections){
@@ -171,6 +171,7 @@ export default class Dashboard extends Component {
 		this.onPreviewClicked = this.onPreviewClicked.bind(this);
 		this.onOutputClicked = this.onOutputClicked.bind(this);
 		this.onStreamsClicked = this.onStreamsClicked.bind(this);
+		this.onDisconnect = this.onDisconnect.bind(this);
 	}
 
 	state = {
@@ -227,6 +228,17 @@ export default class Dashboard extends Component {
 				
 			}
 		});
+	}
+
+	onDisconnect(connection){
+		var check = this.state.checked;
+		if(check.includes(connection)){
+			var spliceIndex = check.indexOf(connection);
+			check.splice(spliceIndex, 1);
+			this.setState({
+				checked: check
+			});
+		}
 	}
 
 	onChecked(connection){
