@@ -63,7 +63,14 @@ socket.on('removed-connection', (socketID, connections)=> {
 		peers[socketID].close();
 		delete peers[socketID];
 	}
-	Dashboard.onDisconnect(connections[socketID])
+	var check = stateContainer.state.checked
+	if(check.includes(socketConnections[socketID])){
+		var spliceIndex = check.indexOf(socketConnections[socketID]);
+		check.splice(spliceIndex, 1);
+		stateContainer.setState({
+			checked: check
+		});
+	}
 	socketConnections = connections;
 	let socketArray = [];
 	for(let x in socketConnections){
@@ -171,7 +178,6 @@ export default class Dashboard extends Component {
 		this.onPreviewClicked = this.onPreviewClicked.bind(this);
 		this.onOutputClicked = this.onOutputClicked.bind(this);
 		this.onStreamsClicked = this.onStreamsClicked.bind(this);
-		this.onDisconnect = this.onDisconnect.bind(this);
 	}
 
 	state = {
@@ -230,17 +236,7 @@ export default class Dashboard extends Component {
 		});
 	}
 
-	onDisconnect(connection){
-		var check = this.state.checked;
-		if(check.includes(connection)){
-			var spliceIndex = check.indexOf(connection);
-			check.splice(spliceIndex, 1);
-			this.setState({
-				checked: check
-			});
-		}
-	}
-
+	
 	onChecked(connection){
 		var check = this.state.checked;
 		if(check.includes(connection)){
@@ -275,15 +271,7 @@ export default class Dashboard extends Component {
 	};
 	
 	onSendText(message){
-		if(this.state.checked.length !== 0){
-			if(message !== ''){
-				sendText(this.state.checked, message);
-			} else {
-				alert('Please enter a message')
-			}
-		} else {
-			alert('No Recipients Selected')
-		}
+		sendText(this.state.checked, message);
 	};
 
 	sendingOptions(checked, options){

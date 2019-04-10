@@ -63,10 +63,20 @@ export default class Response extends Component{
 	} 
 
 	onSendMessage(){
-		this.props.onSendText(this.state.message)
-		this.setState({
-			message: ''
-		});
+		if(this.props.checked.length !== 0){
+				if(this.state.message !== ''){
+					this.props.onSendText(this.state.message)
+					this.setState({
+						message: ''
+					});
+				} else {
+					alert('Please enter a message')
+				}
+			
+		} else {
+			alert('No Recipients Selected');
+		}
+		
 	}
 
     componentDidMount(){
