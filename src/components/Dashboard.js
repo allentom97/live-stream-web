@@ -63,6 +63,7 @@ socket.on('removed-connection', (socketID, connections)=> {
 		peers[socketID].close();
 		delete peers[socketID];
 	}
+	console.log(stateContainer.checked)
 	socketConnections = connections;
 	let socketArray = [];
 	for(let x in socketConnections){
