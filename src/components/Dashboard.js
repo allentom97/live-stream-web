@@ -6,8 +6,8 @@ import Previews from './Previews';
 import io from 'socket.io-client';
 
 
-const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
-//const socket = io('localhost:6500'); -> for local testing
+//const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
+const socket = io('localhost:6500');
 const pcConfig = {
 	iceTransports: 'relay',
 	'iceServers': [
@@ -126,15 +126,29 @@ function sendOptions(toIDs, options){
 		IDs.push(Object.keys(socketConnections)[i]);
 	}
 	for(var id in toIDs){
-		var toID = Object.keys(socketConnections)[id];
-		socket.emit('options-message', toID, IDs, options);
+		var receiver = toIDs[id]
+		for(var toID in socketConnections)
+		{
+			if(socketConnections[toID]===receiver){
+				socket.emit('options-message', toID, IDs, options);
+			}
+		}
 	}
 };
 
 function sendText(toIDs, message){
+	var IDs = [];
+	for(var i in toIDs){
+		IDs.push(Object.keys(socketConnections)[i]);
+	}
 	for(var id in toIDs){
-		var toID = Object.keys(socketConnections)[id];
-		socket.emit('text-message', toID, message);
+		var receiver = toIDs[id]
+		for(var toID in socketConnections)
+		{
+			if(socketConnections[toID]===receiver){
+				socket.emit('text-message', toID, IDs, message);
+			}
+		}
 	}
 }
 
