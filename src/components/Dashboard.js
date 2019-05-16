@@ -6,8 +6,8 @@ import Previews from './Previews';
 import io from 'socket.io-client';
 
 
-const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
-//const socket = io('localhost:6500');
+//const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
+const socket = io('localhost:6500');
 const pcConfig = {
 	iceTransports: 'relay',
 	'iceServers': [
@@ -123,7 +123,11 @@ function sendAir(id , message){
 function sendOptions(toIDs, options){
 	var IDs = [];
 	for(var i in toIDs){
-		IDs.push(Object.keys(socketConnections)[i]);
+		for (let [key, value] of Object.entries(socketConnections)) {
+			if(value === toIDs[i]){
+				IDs.push(key)
+			}
+		}
 	}
 	for(var id in toIDs){
 		var receiver = toIDs[id]
@@ -139,7 +143,11 @@ function sendOptions(toIDs, options){
 function sendText(toIDs, message){
 	var IDs = [];
 	for(var i in toIDs){
-		IDs.push(Object.keys(socketConnections)[i]);
+		for (let [key, value] of Object.entries(socketConnections)) {
+			if(value === toIDs[i]){
+				IDs.push(key)
+			}
+		}
 	}
 	for(var id in toIDs){
 		var receiver = toIDs[id]
