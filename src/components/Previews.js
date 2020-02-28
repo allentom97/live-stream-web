@@ -8,14 +8,13 @@ const Previews = (props) => (
                     <div key={index} className="preview-container">
                         <div className="top-container">
                             <p className="preview-text">Stream: {connection}</p>
-                            <button disabled={!props.disabled} className="preview-button" onClick={() => props.onPreviewClicked(index, connection)} >View</button>
-                            <label className="checkbox-text">
-                                Message:
-                                <input type="checkbox" onChange={() => props.onChecked(connection)} />	
-                            </label>
-                            <p className="option-text" id={connection}>Option:</p>
+                            <p className="checkbox-text">Recipient: </p>
+                            <input type="checkbox" className="checkbox-box" onChange={() => props.onChecked(connection)} />
                         </div>
-                        <video autoPlay muted controls className="preview-video" id={index}> </video>
+                        <video autoPlay muted className="preview-video" onClick={() => props.onPreviewClicked(index, connection)} id={index}> </video>
+                        <p className="question-text" id={connection + "Question"}>Question:</p>
+                        <p className="option-text" id={connection}>Option:</p>
+                        
                     </div>
                 )
             })

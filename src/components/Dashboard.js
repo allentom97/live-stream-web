@@ -106,8 +106,13 @@ socket.on('message', async (socketID, message)=> {
 	}
 });
 
+socket.on('question-text', (socketName, message) => {
+	var id = socketName + "Question";
+	document.getElementById(id).innerHTML = "Message: " + message;
+});
+
 socket.on('options-response', (socketName, message) =>{	
-	var text = "Option: " + message;
+	var text = message;
 	document.getElementById(socketName).innerHTML = text;
 });
 
