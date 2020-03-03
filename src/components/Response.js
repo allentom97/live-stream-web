@@ -94,10 +94,8 @@ export default class Response extends Component{
                 <div className="response-message-container">
 					<label className="message-label">
 						Message Text:
-						<textarea className="response-area" rows="1" cols="100" value={this.state.message} onChange={this.messageOnChange}></textarea>
+						<textarea className="response-area" rows="1" cols="70" value={this.state.message} onChange={this.messageOnChange}></textarea>
 					</label>
-                    
-                    
                 </div>
                 <div className="response-options-container">
                     <label className="option-label">
@@ -112,7 +110,6 @@ export default class Response extends Component{
                         Option Three: 
                         <textarea className="option-area" rows="1" cols="25" value={this.state.optionThree} onChange={this.optionThreeOnChange}></textarea>
                     </label>
-                    {/*<button className="option-button" onClick={this.onSendOptions}>Send Options</button>*/}
 					<button className="response-button" onClick={this.onSendMessage}>Send Message</button>
                 </div>
             </div>
