@@ -1,0 +1,132 @@
+.pitch-container{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: $s-size;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: white;
+    padding: $s-size;
+    border: 0.2rem solid grey;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.button-container{
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    display: flex;
+    overflow: hidden;
+    background-color: white;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    vertical-align: middle;
+}
+
+.location-button{
+    font-family: sans-serif;
+    font-size: $s-size;
+    margin-left: $s-size;
+    background-color: $burnt-orange;
+    border: $burnt-orange;
+    color: $burnt-orange;
+}
+
+.team-a-button{
+    font-family: sans-serif;
+    font-size: $s-size;
+    margin-left: $s-size;
+    padding: 2px;
+    background-color:  red;
+    border: red;
+    color: #ffffff;
+}
+
+.team-b-button{
+    font-family: sans-serif;
+    font-size: $s-size;
+    margin-left: $s-size;
+    padding: 2px;
+    background-color: blue;
+    border: blue;
+    color: #ffffff;
+}
+
+.pitch-grid {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: auto auto;
+    padding: 5px;
+    background-color: white;
+}
+
+.grid-endzone-top {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-top: 1px solid rgba(0, 0, 0, 0.8);
+    border-right: 1px solid rgba(0, 0, 0, 0.8);
+    border-left: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 25px;
+    padding-bottom: 40px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.grid-endzone-bottom {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+    border-right: 1px solid rgba(0, 0, 0, 0.8);
+    border-left: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 25px;
+    padding-bottom: 40px;
+    font-size: 30px;
+    text-align: center;
+}
+
+
+.grid-balcony-top {
+    background-color: grey;
+    border-top: 1px solid rgba(0, 0, 0, 0.8);
+    border-right: 1px solid rgba(0, 0, 0, 0.8);
+    border-left: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 25px;
+    padding-bottom: 40px;
+    font-size: 30px;
+    text-align: center;
+    grid-column-gap: 50px;
+}
+
+.grid-balcony-bottom {
+    background-color: grey;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+    border-right: 1px solid rgba(0, 0, 0, 0.8);
+    border-left: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 25px;
+    padding-bottom: 40px;
+    font-size: 30px;
+    text-align: center;
+    grid-column-gap: 50px;
+}
+
+.grid-middle-top {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-top: 1px solid rgba(0, 0, 0, 0.8);
+    padding-left: 200px;
+    padding-bottom: 40px;
+    font-size: 5px;
+    text-align: center;
+}
+
+.grid-middle-bottom {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+    padding-left: 200px;
+    padding-bottom: 40px;
+    font-size: 5px;
+    text-align: center;
+}

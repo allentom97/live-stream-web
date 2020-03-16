@@ -4,6 +4,7 @@ import Header from './Header';
 import Video from './Video';
 import Previews from './Previews';
 import io from 'socket.io-client';
+import PitchLayout from './PitchLayout';
 
 
 //const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
@@ -30,7 +31,7 @@ const pcConfig = {
 	]
 };
 const answerOptions = {'OfferToReceiveAudio':true,'OfferToReceiveVideo':true};
-const adapter = require("webrtc-adapter");
+//const adapter = require("webrtc-adapter");
 let peers = {};
 let socketConnections = {};
 let stateContainer;
@@ -106,8 +107,13 @@ socket.on('message', async (socketID, message)=> {
 	}
 });
 
+socket.on('question-text', (socketName, message) => {
+	var id = socketName + "Question";
+	document.getElementById(id).innerHTML = "Message: " + message;
+});
+
 socket.on('options-response', (socketName, message) =>{	
-	var text = "Option: " + message;
+	var text = message;
 	document.getElementById(socketName).innerHTML = text;
 });
 
@@ -324,6 +330,13 @@ export default class Dashboard extends Component {
 								onSendText={this.onSendText}
 								checked={this.state.checked}
 								sendingOptions={this.sendingOptions}
+							/>
+							
+							<PitchLayout
+								videoScreen={this.state.videoScreen}
+								onSendText={this.onSendText}
+								checked={this.state.checked}
+								sendingOptions={this.sendingOptions}
 							/>	
 						</div>
 			  		</div>
@@ -336,6 +349,7 @@ export default class Dashboard extends Component {
 							onPreviewClicked={this.onPreviewClicked} 
 					 	 />
 				  	</div>
+					
 				</div>
 			</div>
 		 </div>

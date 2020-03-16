@@ -2,12 +2,13 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: $s-size;
-    width: 80%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     background-color: white;
-    padding: $l-size;
+    padding-right: $l-size;
+    padding-left: $l-size;
     border: 0.2rem solid grey;
     flex-wrap: nowrap;
     align-items: center;
@@ -20,18 +21,25 @@
     vertical-align: middle;
 }
 
+.message-label{
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: $s-size;
+    margin-right: $m-size;
+}
+
 .response-area{
-    margin-left: $l-size;
+    margin-left: $xs-size;
     width: 75%;
     resize: none;
-    margin-top: $m-size;
+    margin-top: $xs-size;
     flex-wrap: nowrap;
 }
 .response-button{
     font-family: sans-serif;
     font-weight: bold;
     font-size: $s-size;
-    margin-left: $m-size;
+    margin-left: $s-size;
 }
 
 .response-options-container{

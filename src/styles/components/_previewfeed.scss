@@ -35,7 +35,7 @@
     font-weight: bold;
     font-size: $s-size;
     align-self: center;
-    margin-left: $m-size;
+    margin-left: $s-size;
 
 }
 
@@ -44,12 +44,25 @@
     font-weight: bold;
     font-size: $s-size;
     margin: $xs-size;
-    margin-left: $m-size;
+    margin-left: $s-size;
+}
+
+.question-text{
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: $s-size;
+    margin: $xs-size;
+    margin-left: $s-size;
 }
 
 .checkbox-text{
     font-family: sans-serif;
     font-weight: bold;
     font-size: $s-size;
-    margin-left: $m-size;
+    margin-left: $s-size;
+}
+
+.checkbox-box{
+    height: 20px;
+    width: 20px;
 }
