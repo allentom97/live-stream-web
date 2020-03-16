@@ -86,7 +86,13 @@ export default class Response extends Component{
 
     componentDidMount(){
         
-    }
+	}
+	
+	onKeyDownHandler = e => {
+		if (e.keyCode === 13) {
+		  this.onSendMessage();
+		}
+	  };
 
     render(){
         return(
@@ -94,7 +100,7 @@ export default class Response extends Component{
                 <div className="response-message-container">
 					<label className="message-label">
 						Message Text:
-						<textarea className="response-area" rows="1" cols="70" value={this.state.message} onChange={this.messageOnChange}></textarea>
+						<textarea className="response-area" rows="1" cols="70" value={this.state.message} onChange={this.messageOnChange} onKeyDown={this.onKeyDownHandler}></textarea>
 					</label>
                 </div>
                 <div className="response-options-container">
