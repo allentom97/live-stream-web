@@ -18,7 +18,8 @@ export default class Response extends Component{
 		optionOne: '',
 		optionTwo: '',
 		optionThree: '',
-		optionNoMessageReceived: 'Message Not received'
+		optionNoMessageReceived: 'Message Not received',
+		optionMessageReceived: 'Message received'
 	}
 
     messageOnChange(event){
@@ -38,7 +39,6 @@ export default class Response extends Component{
 
     onSendOptions(){
 		if(this.props.checked.length !== 0){
-			//if(this.state.optionOne !== '' || this.state.optionTwo !== ''  || this.state.optionThree !== '' ){
 				let options = [];
 				if(this.state.optionOne !== ''){
 					options.push(this.state.optionOne);
@@ -49,7 +49,11 @@ export default class Response extends Component{
 				if(this.state.optionThree !== ''){
 					options.push(this.state.optionThree);
 				}
-				// add not received option
+				// add received option if message doesn't require a specific response
+				if(options.length == 0){
+					options.push(this.state.optionMessageReceived);
+				}
+				// add option not received 
 				options.push(this.state.optionNoMessageReceived);
 				this.props.sendingOptions(this.props.checked, options);
 				this.setState({
@@ -57,9 +61,6 @@ export default class Response extends Component{
 					optionTwo: '',
 					optionThree: ''
 				});
-			//} else {
-			//	alert('Please fill in at least one option');
-			//}
 		} else {
 			alert('No Recipients Selected');
 		}
