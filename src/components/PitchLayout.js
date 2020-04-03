@@ -124,9 +124,6 @@ export default class PitchLayout extends Component{
     render(){
         return(
             <div className="pitch-container">
-                {/*<div className="pitch-diagram">
-                    <img src="./pitch1.png" alt="picture"></img>
-        </div>*/}
                 <div className="button-container">
                     <button className="team-a-button" onClick={this.setTeamA}>Team A</button>
                     <button className="team-b-button" onClick={this.setTeamB}>Team B</button>

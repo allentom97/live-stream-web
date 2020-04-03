@@ -50,7 +50,7 @@ export default class Response extends Component{
 					options.push(this.state.optionThree);
 				}
 				// add received option if message doesn't require a specific response
-				if(options.length == 0){
+				if(options.length === 0){
 					options.push(this.state.optionMessageReceived);
 				}
 				// add option not received 

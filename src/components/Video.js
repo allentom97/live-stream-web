@@ -6,7 +6,6 @@ const Video  = (props) =>(
             <p className="current-stream">Currently Viewing Stream: {props.currentStream}</p>
             <video autoPlay muted controls className="video-player" id='mainStream' ></video>
         </div>
-        
     </div>
 )
 

@@ -36,10 +36,21 @@
     flex-wrap: nowrap;
 }
 .response-button{
-    font-family: sans-serif;
-    font-weight: bold;
-    font-size: $s-size;
-    margin-left: $s-size;
+    display: inline-block;
+	border: 1px $burnt-orange;
+	color: #fff;
+	text-decoration: none;
+	background-color: $burnt-orange;
+	font-size: 13px;
+	text-transform: uppercase;
+	font-weight: 600;
+	letter-spacing: 1px;
+    border-radius: 10px;
+    padding: 7px;
+	text-align: center;
+	position: relative;
+    outline: none;
+    width: 150px;
 }
 
 .response-options-container{

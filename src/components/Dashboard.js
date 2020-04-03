@@ -5,6 +5,7 @@ import Video from './Video';
 import Previews from './Previews';
 import io from 'socket.io-client';
 import PitchLayout from './PitchLayout';
+import CameraLayout from './CameraLayout';
 
 
 //const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
@@ -332,12 +333,18 @@ export default class Dashboard extends Component {
 								sendingOptions={this.sendingOptions}
 							/>
 							
-							<PitchLayout
+							{/*<PitchLayout
 								videoScreen={this.state.videoScreen}
 								onSendText={this.onSendText}
 								checked={this.state.checked}
 								sendingOptions={this.sendingOptions}
-							/>	
+							/>*/}
+							<CameraLayout
+								videoScreen={this.state.videoScreen}
+								onSendText={this.onSendText}
+								checked={this.state.checked}
+								sendingOptions={this.sendingOptions}
+							/>
 						</div>
 			  		</div>
 					<div>      
