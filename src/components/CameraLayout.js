@@ -5,24 +5,21 @@ export default class PitchLayout extends Component{
         super(props);
         this.onSendMessage = this.onSendMessage.bind(this);
         this.setPanLR = this.setPanLR.bind(this);
-        this.setPanLR = this.setPanLR.bind(this);
+        this.setPanRL = this.setPanRL.bind(this);
         this.setWideShot = this.setWideShot.bind(this);
         this.setTiltUp = this.setTiltUp.bind(this);
         this.setTiltDown = this.setTiltDown.bind(this);
     }
 
     state = {
-        message: 'yeet',
-        optionOne: '',
-		optionTwo: '',
-		optionThree: '',
+        message: '',
 		optionNoMessageReceived: 'Message Not received'
     }
 
     setPanLR() {
         // set message value
         this.setState({
-            message: 'Pan L->R'
+            message: 'Pan Right'
         });
         this.onSendMessage();
     }
@@ -30,7 +27,7 @@ export default class PitchLayout extends Component{
     setPanRL() {
         // set message value
         this.setState({
-            message: 'Pan L<-R'
+            message: 'Pan Left'
         });
         this.onSendMessage();
     }
