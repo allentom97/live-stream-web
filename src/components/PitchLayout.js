@@ -1,97 +1,26 @@
 import React, { Component } from 'react';
+import Toast from 'light-toast'; // third party library - https://github.com/xinkule/light-toast version 0.1.9 -- https://www.npmjs.com/package/light-toast/v/0.1.9
 
 export default class PitchLayout extends Component{
     constructor(props){
         super(props);
+        this.handleMessage = this.handleMessage.bind(this);
         this.onSendMessage = this.onSendMessage.bind(this);
-        this.setLocation1 = this.setLocation1.bind(this);
-        this.setLocation2 = this.setLocation2.bind(this);
-        this.setLocation3 = this.setLocation3.bind(this);
-        this.setLocation4 = this.setLocation4.bind(this);
-        this.setLocation5 = this.setLocation5.bind(this);
-        this.setLocation6 = this.setLocation6.bind(this);
-        this.setTeamA = this.setTeamA.bind(this);
-        this.setTeamB = this.setTeamB.bind(this);
-        this.setSideline = this.setSideline.bind(this);
     }
 
     state = {
-        message: 'maymays',
+        message: '',
 		optionOne: '',
 		optionTwo: '',
 		optionThree: '',
 		optionNoMessageReceived: 'Message Not received'
     }
 
-    setTeamA() {
-        // set message value
-        this.setState({
-            message: 'Follow Team A'
-        });
-        this.onSendMessage();
-    }
 
-    setTeamB() {
-        // set message value
+    // handles setting and sending message from button click
+    handleMessage(messageText) {
         this.setState({
-            message: 'Follow Team B'
-        });
-        this.onSendMessage();
-    }
-
-    setLocation1() {
-        // set message value
-        this.setState({
-            message: 'Move to viewing deck'
-        });
-        this.onSendMessage();
-
-    }
-
-    setLocation2() {
-        // set message value
-        this.setState({
-            message: 'Move to back left endzone'
-        });
-        this.onSendMessage();
-    }
-
-    setLocation3() {
-        // set message value
-        this.setState({
-            message: 'Move to front left endzone'
-        });
-        this.onSendMessage();
-    }
-
-    setLocation4() {
-        // set message value
-        this.setState({
-            message: 'Capture middle area of pitch'
-        });
-        this.onSendMessage();
-    }
-
-    setLocation5() {
-        // set message value
-        this.setState({
-            message: 'Move to front right endzone'
-        });
-        this.onSendMessage();
-    }
-
-    setLocation6() {
-        // set message value
-        this.setState({
-            message: 'Move to back right endzone'
-        });
-        this.onSendMessage();
-    }
-
-    setSideline() {
-        // set message value
-        this.setState({
-            message: 'Move to middle side line'
+            message: messageText
         });
         this.onSendMessage();
     }
@@ -106,6 +35,10 @@ export default class PitchLayout extends Component{
             if(this.props.checked.length !== 0){
                 if(this.state.message !== '') {
                     this.props.onSendText(this.state.message);
+                    // show director notification as feedback
+                    Toast.success(this.state.message, 500, () => {
+                        // do something after the toast disappears
+                    });
                     // reset message to empty
                     this.setState({
                         message: ''
@@ -125,20 +58,20 @@ export default class PitchLayout extends Component{
         return(
             <div className="pitch-container">
                 <div className="button-container">
-                    <button className="team-a-button" onClick={this.setTeamA}>Team A</button>
-                    <button className="team-b-button" onClick={this.setTeamB}>Team B</button>
+                    <button className="team-a-button" onClick={() => {this.handleMessage("Follow team A")}}>Team A</button>
+                    <button className="team-b-button" onClick={() => {this.handleMessage("Follow team B")}}>Team B</button>
                 </div>    
                 <div className="pitch-grid">
-                    <div className="grid-balcony-top" onClick={this.setLocation1}></div>
-                    <div className="grid-endzone-top" onClick={this.setLocation2}></div>
-                    <div className="grid-middle-top" onClick={this.setLocation4}></div>
-                    <div className="grid-endzone-top" onClick={this.setLocation6}></div>
-                    <div className="grid-balcony-bottom" onClick={this.setLocation1}></div>
-                    <div className="grid-endzone-bottom" onClick={this.setLocation3}></div>
-                    <div className="grid-middle-bottom" onClick={this.setLocation4}></div>
-                    <div className="grid-endzone-bottom" onClick={this.setLocation5}></div>
+                    <div className="grid-balcony-top" onClick={() => {this.handleMessage("Move to balcony")}}></div>
+                    <div className="grid-endzone-top" onClick={() => {this.handleMessage("Move to back left endzone")}}></div>
+                    <div className="grid-middle-top" onClick={() => {this.handleMessage("Film middle of pitch")}}></div>
+                    <div className="grid-endzone-top" onClick={() => {this.handleMessage("Move to back right endzone")}}></div>
+                    <div className="grid-balcony-bottom" onClick={() => {this.handleMessage("Move to balcony")}}></div>
+                    <div className="grid-endzone-bottom" onClick={() => {this.handleMessage("Move to front left")}}></div>
+                    <div className="grid-middle-bottom" onClick={() => {this.handleMessage("Film middle of pitch")}}></div>
+                    <div className="grid-endzone-bottom" onClick={() => {this.handleMessage("Film front right endzone")}}></div>
                 </div>
-                <button className="location-button" onClick={this.setSideline}>__</button>                
+                <button className="location-button" onClick={() => {this.handleMessage("Move to middle sideline")}}>__</button>                
             </div>
         );
     }

@@ -329,6 +329,7 @@ export default class Dashboard extends Component {
 							<Toggle>
 								{({on, toggle}) => (
 									<div>
+										<button className="toggle-button" onClick={toggle}>Response controls</button>
 										{on && 
 											<Response 
 												videoScreen={this.state.videoScreen}
@@ -337,13 +338,14 @@ export default class Dashboard extends Component {
 												sendingOptions={this.sendingOptions}
 											/>
 										}
-										<button onClick={toggle}>Show response controls</button>
+										
 									</div>
 								)}
 							</Toggle>
 							<Toggle>
 								{({on, toggle}) => (
 									<div>
+										<button className="toggle-button" onClick={toggle}>Pitch controls</button>
 										{on && 
 											<PitchLayout
 												videoScreen={this.state.videoScreen}
@@ -352,13 +354,14 @@ export default class Dashboard extends Component {
 												sendingOptions={this.sendingOptions}
 											/>
 										}
-										<button onClick={toggle}>Show pitch controls</button>
+										
 									</div>
 								)}
 							</Toggle>
 							<Toggle>
 								{({on, toggle}) => (
 								<div>
+									<button className="toggle-button" onClick={toggle}>Camera controls</button>
 									{on && 
 										<CameraLayout
 										videoScreen={this.state.videoScreen}
@@ -367,7 +370,7 @@ export default class Dashboard extends Component {
 										sendingOptions={this.sendingOptions}
 										/>
 									}
-									<button onClick={toggle}>Show camera controls</button>
+									
 								</div>
 								)}
 							</Toggle>
