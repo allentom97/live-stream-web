@@ -5,6 +5,8 @@ import Video from './Video';
 import Previews from './Previews';
 import io from 'socket.io-client';
 import PitchLayout from './PitchLayout';
+import CameraLayout from './CameraLayout';
+import Toggle from './Toggle';
 
 
 //const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
@@ -324,20 +326,54 @@ export default class Dashboard extends Component {
 									currentStream={this.state.currentStream}
 								/>
 							}
-
-							<Response 
-								videoScreen={this.state.videoScreen}
-								onSendText={this.onSendText}
-								checked={this.state.checked}
-								sendingOptions={this.sendingOptions}
-							/>
-							
-							<PitchLayout
-								videoScreen={this.state.videoScreen}
-								onSendText={this.onSendText}
-								checked={this.state.checked}
-								sendingOptions={this.sendingOptions}
-							/>	
+							<Toggle>
+								{({on, toggle}) => (
+									<div>
+										<button className="toggle-button" onClick={toggle}>Response controls</button>
+										{on && 
+											<Response 
+												videoScreen={this.state.videoScreen}
+												onSendText={this.onSendText}
+												checked={this.state.checked}
+												sendingOptions={this.sendingOptions}
+											/>
+										}
+										
+									</div>
+								)}
+							</Toggle>
+							<Toggle>
+								{({on, toggle}) => (
+									<div>
+										<button className="toggle-button" onClick={toggle}>Pitch controls</button>
+										{on && 
+											<PitchLayout
+												videoScreen={this.state.videoScreen}
+												onSendText={this.onSendText}
+												checked={this.state.checked}
+												sendingOptions={this.sendingOptions}
+											/>
+										}
+										
+									</div>
+								)}
+							</Toggle>
+							<Toggle>
+								{({on, toggle}) => (
+								<div>
+									<button className="toggle-button" onClick={toggle}>Camera controls</button>
+									{on && 
+										<CameraLayout
+										videoScreen={this.state.videoScreen}
+										onSendText={this.onSendText}
+										checked={this.state.checked}
+										sendingOptions={this.sendingOptions}
+										/>
+									}
+									
+								</div>
+								)}
+							</Toggle>
 						</div>
 			  		</div>
 					<div>      

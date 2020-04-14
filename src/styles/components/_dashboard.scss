@@ -1,7 +1,23 @@
 .dashboard-container{
     display: flex;
     justify-content: space-evenly;
-    background-color: lighten(grey, 30);
 }
 
-
+.toggle-button{
+    display: inline-block;
+    border: 5px thick;
+    border-color: $burnt-orange;
+    color: $burnt-orange;
+    text-decoration: none;
+    background-color: white;
+    padding: 1px;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    outline: none;
+    margin: 2px;
+}

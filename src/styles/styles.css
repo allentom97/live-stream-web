@@ -15,8 +15,25 @@ body {
 
 .dashboard-container {
   display: flex;
-  justify-content: space-evenly;
-  background-color: #cdcdcd; }
+  justify-content: space-evenly; }
+
+.toggle-button {
+  display: inline-block;
+  border: 5px thick;
+  border-color: #FC5124;
+  color: #FC5124;
+  text-decoration: none;
+  background-color: white;
+  padding: 1px;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  outline: none;
+  margin: 2px; }
 
 .header {
   background: #FC5124;
@@ -160,10 +177,21 @@ body {
   flex-wrap: nowrap; }
 
 .response-button {
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-left: 1.2rem; }
+  display: inline-block;
+  border: 1px #FC5124;
+  color: #fff;
+  text-decoration: none;
+  background-color: #FC5124;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 10px;
+  padding: 7px;
+  text-align: center;
+  position: relative;
+  outline: none;
+  width: 150px; }
 
 .response-options-container {
   margin: 0.8rem;
@@ -308,3 +336,34 @@ body {
   padding-bottom: 40px;
   font-size: 5px;
   text-align: center; }
+
+.camera-instruction-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 2px;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle; }
+
+.camera-button {
+  display: inline-block;
+  border: 10px none white;
+  color: #fff;
+  text-decoration: none;
+  background-color: #FC5124;
+  padding: 10px;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  outline: none;
+  width: 110px;
+  margin: 2px; }
