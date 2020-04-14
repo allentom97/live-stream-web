@@ -208,6 +208,7 @@ export default class Dashboard extends Component {
 		this.onPreviewClicked = this.onPreviewClicked.bind(this);
 		this.onOutputClicked = this.onOutputClicked.bind(this);
 		this.onStreamsClicked = this.onStreamsClicked.bind(this);
+		this.toggleComponent = this.toggleComponent.bind(this);
 	}
 
 	state = {
@@ -222,13 +223,35 @@ export default class Dashboard extends Component {
 		directorStyle: {
 			flexDirection: 'row'
 		},
-		liveID: ''
+		liveID: '',
+		responseIsVisible: false,
+		pitchIsVisible: false,
+		cameraIsVisible: false
 	}
 
-
-	
 	componentDidMount(){
-		stateContainer = this;	
+		stateContainer = this;
+		document.addEventListener('keydown', this.onKeyDownHandler);	
+	}
+	
+	componentWillUnmount() {
+		document.removeEventListener('keydown', this.onKeyDownHandler);
+	}
+
+	toggleComponent(name){
+		if (name === 'response') {
+			this.setState({
+				responseIsVisible: !this.state.responseIsVisible
+			});
+		} else if (name === 'pitch') {
+			this.setState({
+				pitchIsVisible: !this.state.pitchIsVisible
+			});
+		} else if (name === 'camera') {
+			this.setState({
+				cameraIsVisible: !this.state.cameraIsVisible
+			});
+		}
 	}
 
 	onStreamsClicked(){
@@ -266,7 +289,6 @@ export default class Dashboard extends Component {
 		});
 	}
 
-	
 	onChecked(connection){
 		var check = this.state.checked;
 		if(check.includes(connection)){
@@ -318,62 +340,43 @@ export default class Dashboard extends Component {
 				disabled={this.state.videoScreen}
 			/>
 			<div className="container">
-				<div className="dashboard-container" style={this.state.directorStyle}>
-					<div className="director-container">      
+				<div className="dashboard-container" onKeyDown={() => this.onKeyDownHandler} style={this.state.directorStyle}>
+					<div className="director-container" >      
 						<div > 
 							{this.state.videoScreen && 		
 								<Video
 									currentStream={this.state.currentStream}
 								/>
 							}
-							<Toggle>
-								{({on, toggle}) => (
-									<div>
-										<button className="toggle-button" onClick={toggle}>Response controls</button>
-										{on && 
-											<Response 
-												videoScreen={this.state.videoScreen}
-												onSendText={this.onSendText}
-												checked={this.state.checked}
-												sendingOptions={this.sendingOptions}
-											/>
-										}
-										
-									</div>
-								)}
-							</Toggle>
-							<Toggle>
-								{({on, toggle}) => (
-									<div>
-										<button className="toggle-button" onClick={toggle}>Pitch controls</button>
-										{on && 
-											<PitchLayout
-												videoScreen={this.state.videoScreen}
-												onSendText={this.onSendText}
-												checked={this.state.checked}
-												sendingOptions={this.sendingOptions}
-											/>
-										}
-										
-									</div>
-								)}
-							</Toggle>
-							<Toggle>
-								{({on, toggle}) => (
-								<div>
-									<button className="toggle-button" onClick={toggle}>Camera controls</button>
-									{on && 
-										<CameraLayout
-										videoScreen={this.state.videoScreen}
-										onSendText={this.onSendText}
-										checked={this.state.checked}
-										sendingOptions={this.sendingOptions}
-										/>
-									}
-									
-								</div>
-								)}
-							</Toggle>
+							<div>
+								<button className="toggle-button" onClick={() => this.toggleComponent("response")}>Response controls</button>
+								<button className="toggle-button" onClick={() => this.toggleComponent("pitch")}>Pitch controls</button>
+								<button className="toggle-button" onClick={() => this.toggleComponent("camera")}>Camera controls</button>
+							</div>
+							{this.state.responseIsVisible && 
+								<Response 
+									videoScreen={this.state.videoScreen}
+									onSendText={this.onSendText}
+									checked={this.state.checked}
+									sendingOptions={this.sendingOptions}
+								/>
+							}
+							{this.state.pitchIsVisible && 
+								<PitchLayout
+									videoScreen={this.state.videoScreen}
+									onSendText={this.onSendText}
+									checked={this.state.checked}
+									sendingOptions={this.sendingOptions}
+								/>
+							}
+							{this.state.cameraIsVisible && 
+								<CameraLayout
+								videoScreen={this.state.videoScreen}
+								onSendText={this.onSendText}
+								checked={this.state.checked}
+								sendingOptions={this.sendingOptions}
+								/>
+							}
 						</div>
 			  		</div>
 					<div>      
@@ -394,4 +397,12 @@ export default class Dashboard extends Component {
 }
 
 
+/*
 
+	// selection of preview by pressing ctrl + number
+	onKeyDownHandler(e) {
+		if (e.keyCode === 49 && e.ctrlKey) {
+		  this.onPreviewClicked('0', 'Tom');
+		}
+	  };
+*/
