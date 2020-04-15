@@ -34,11 +34,12 @@ export default class PitchLayout extends Component{
             // check recipients > 0
             if(this.props.checked.length !== 0){
                 if(this.state.message !== '') {
+                    let options = [];
+                    options.push(this.state.optionNoMessageReceived);
+                    this.props.sendingOptions(this.props.checked, options);
                     this.props.onSendText(this.state.message);
                     // show director notification as feedback
-                    Toast.success(this.state.message, 500, () => {
-                        // do something after the toast disappears
-                    });
+                    Toast.success(this.state.message, 500, () => {});
                     // reset message to empty
                     this.setState({
                         message: ''
