@@ -6,7 +6,7 @@ import Previews from './Previews';
 import io from 'socket.io-client';
 import PitchLayout from './PitchLayout';
 import CameraLayout from './CameraLayout';
-import Toggle from './Toggle';
+import StageLayout from './StageLayout';
 
 
 //const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
@@ -226,7 +226,8 @@ export default class Dashboard extends Component {
 		liveID: '',
 		responseIsVisible: false,
 		pitchIsVisible: false,
-		cameraIsVisible: false
+		cameraIsVisible: false,
+		stageIsVisible: false
 	}
 
 	componentDidMount(){
@@ -250,6 +251,10 @@ export default class Dashboard extends Component {
 		} else if (name === 'camera') {
 			this.setState({
 				cameraIsVisible: !this.state.cameraIsVisible
+			});
+		} else if (name === 'stage') {
+			this.setState({
+				stageIsVisible: !this.state.stageIsVisible
 			});
 		}
 	}
@@ -319,7 +324,9 @@ export default class Dashboard extends Component {
 		sendAir(connection, {
 			type: 'on-air'
 		});
-		var videoE = document.getElementById('mainStream'); videoE.muted = false;
+		var videoE = document.getElementById('mainStream');
+		videoE.muted = false;
+		videoE.style.borderColor = 'red';
 	};
 	
 	onSendText(message){
@@ -352,6 +359,7 @@ export default class Dashboard extends Component {
 								<button className="toggle-button" onClick={() => this.toggleComponent("response")}>Response controls</button>
 								<button className="toggle-button" onClick={() => this.toggleComponent("pitch")}>Pitch controls</button>
 								<button className="toggle-button" onClick={() => this.toggleComponent("camera")}>Camera controls</button>
+								<button className="toggle-button" onClick={() => this.toggleComponent("stage")}>Stage controls</button>
 							</div>
 							{this.state.responseIsVisible && 
 								<Response 
@@ -375,6 +383,14 @@ export default class Dashboard extends Component {
 								onSendText={this.onSendText}
 								checked={this.state.checked}
 								sendingOptions={this.sendingOptions}
+								/>
+							}
+							{this.state.stageIsVisible &&
+								<StageLayout
+									videoScreen={this.state.videoScreen}
+									onSendText={this.onSendText}
+									checked={this.state.checked}
+									sendingOptions={this.sendingOptions}
 								/>
 							}
 						</div>
