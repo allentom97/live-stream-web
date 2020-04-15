@@ -30,3 +30,28 @@
     width: 110px;
     margin: 2px;
 }
+
+.shot-button{
+    display: inline-block;
+	border: 10px none white;
+	color: #fff;
+	text-decoration: none;
+	background-color: lightseagreen;
+	padding: 10px;
+	font-size: 13px;
+	text-transform: uppercase;
+	font-weight: 600;
+	letter-spacing: 1px;
+	border-radius: 10px;
+	text-align: center;
+	position: relative;
+    outline: none;
+    width: 110px;
+    margin: 2px;
+}
+
+.options-bar{
+    border: 5px none black;
+    background-color: white;
+    margin: 10px;
+}

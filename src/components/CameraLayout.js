@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
+import Toast from 'light-toast'; // third party library - https://github.com/xinkule/light-toast version 0.1.9 -- https://www.npmjs.com/package/light-toast/v/0.1.9
+
 
 export default class PitchLayout extends Component{
     constructor(props){
         super(props);
+        this.setMessage = this.setMessage.bind(this);
         this.onSendMessage = this.onSendMessage.bind(this);
-        this.setPanLR = this.setPanLR.bind(this);
-        this.setPanRL = this.setPanRL.bind(this);
-        this.setWideShot = this.setWideShot.bind(this);
-        this.setTiltUp = this.setTiltUp.bind(this);
-        this.setTiltDown = this.setTiltDown.bind(this);
     }
 
     state = {
@@ -16,42 +14,9 @@ export default class PitchLayout extends Component{
 		optionNoMessageReceived: 'Message Not received'
     }
 
-    setPanLR() {
-        // set message value
+    setMessage(message) {
         this.setState({
-            message: 'Pan Right'
-        });
-        this.onSendMessage();
-    }
-
-    setPanRL() {
-        // set message value
-        this.setState({
-            message: 'Pan Left'
-        });
-        this.onSendMessage();
-    }
-
-    setWideShot() {
-        // set message value
-        this.setState({
-            message: 'Get a wide shot'
-        });
-        this.onSendMessage();
-    }
-
-    setTiltUp() {
-        // set message value
-        this.setState({
-            message: "Tilt upwards"
-        });
-        this.onSendMessage();
-    }
-
-    setTiltDown() {
-        // set message value
-        this.setState({
-            message: "Tilt downwards"
+            message: message
         });
         this.onSendMessage();
     }
@@ -64,7 +29,11 @@ export default class PitchLayout extends Component{
             // check recipients > 0
             if(this.props.checked.length !== 0){
                 if(this.state.message !== '') {
+                    let options = [];
+                    options.push(this.state.optionNoMessageReceived);
+                    this.props.sendingOptions(this.props.checked, options);
                     this.props.onSendText(this.state.message);
+                    Toast.success(this.state.message, 500, () => {});
                     // reset message to empty
                     this.setState({
                         message: ''
@@ -83,13 +52,18 @@ export default class PitchLayout extends Component{
     render(){
         return(
             <div className="camera-instruction-container">
-                <button className="camera-button" onClick={this.setTiltUp}>Tilt Up</button>
+                <button className="camera-button" onClick={() => this.setMessage("Tile upwards")}>Tilt Up</button>
                 <div className="middle">
-                    <button className="camera-button" onClick={this.setPanRL}>Pan Left</button>
-                    <button className="camera-button" onClick={this.setWideShot}>Wide shot</button>
-                    <button className="camera-button" onClick={this.setPanLR}>Pan Right</button>
+                    <button className="camera-button" onClick={() => this.setMessage("Pan Left")}>Pan Left</button>
+                    <button className="camera-button" onClick={() => this.setMessage("Hold subject in centre of frame")}>Centre</button>
+                    <button className="camera-button" onClick={() => this.setMessage("Pan Right")}>Pan Right</button>
                 </div>
-                <button className="camera-button" onClick={this.setTiltDown}>Tilt Down</button>                 
+                <button className="camera-button" onClick={() => this.setMessage("Tilt downwards")}>Tilt Down</button>
+                <div classname="options-bar">    
+                    <button className="shot-button" onClick={() => this.setMessage("Get a wide shot ")}>Wide shot</button>
+                    <button className="shot-button" onClick={() => this.setMessage("Get a close up shot ")}>Close up</button>
+                    <button className="shot-button" onClick={() => this.setMessage("Get a low shot ")}>Low shot</button>
+                </div>           
             </div>
         );
     }
