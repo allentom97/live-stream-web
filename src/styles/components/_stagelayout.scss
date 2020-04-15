@@ -1,0 +1,47 @@
+.stage-container{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: $s-size;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: white;
+    padding: $s-size;
+    border: 0.2rem solid grey;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.button-container{
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    display: flex;
+    overflow: hidden;
+    background-color: white;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    vertical-align: middle;
+}
+
+.stage-grid {
+    display: grid;
+    grid-template-columns: auto auto auto ;
+    grid-template-rows: auto auto;
+    padding: 5px;
+    background-color: white;
+}
+
+.grid- {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 25px;
+    padding-bottom: 40px;
+    font-size: 30px;
+    text-align: center;
+}
