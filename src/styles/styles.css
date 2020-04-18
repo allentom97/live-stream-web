@@ -110,11 +110,11 @@ body {
   font-family: sans-serif;
   font-weight: bold;
   font-size: 1.2rem;
-  margin-left: 1.2rem; }
+  margin-left: 1.2rem;
+  margin-right: 1.2rem; }
 
-.checkbox-box {
-  height: 20px;
-  width: 20px; }
+input[type=checkbox] {
+  transform: scale(3); }
 
 .director-container {
   display: flex;
