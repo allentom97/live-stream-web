@@ -227,7 +227,9 @@ export default class Dashboard extends Component {
 		responseIsVisible: false,
 		pitchIsVisible: false,
 		cameraIsVisible: false,
-		stageIsVisible: false
+		stageIsVisible: false,
+		clickCount: 0,
+		previewClickedConnection: null
 	}
 
 	componentDidMount(){
@@ -311,22 +313,51 @@ export default class Dashboard extends Component {
 	};
 
 	onPreviewClicked(index, connection){
-		var stream = document.getElementById(index.toString()).srcObject;
-		document.getElementById('mainStream').srcObject = stream;
-		if (this.currentStream !== undefined) {
-			sendAir(this.state.currentStream, {
-				type: 'off-air'
+		var clickedStream = document.getElementById(index);
+		if (this.state.previewClickedConnection === connection) {
+			this.setState({
+				clickCount: this.state.clickCount + 1
+			});
+		} else {
+			this.setState({
+				clickCount: 1
 			});
 		}
 		this.setState({
-			currentStream: connection
+			previewClickedConnection: connection
 		});
-		sendAir(connection, {
-			type: 'on-air'
-		});
-		var videoE = document.getElementById('mainStream');
-		videoE.muted = false;
-		videoE.style.borderColor = 'red';
+		setTimeout(() => {
+
+			if (this.state.clickCount === 3) {
+				var stream = document.getElementById(index.toString()).srcObject;
+				document.getElementById('mainStream').srcObject = stream;
+				if (this.currentStream !== undefined) {
+					sendAir(this.state.currentStream, {
+						type: 'off-air'
+					});
+				}
+				this.setState({
+					currentStream: connection
+				});
+				sendAir(connection, {
+					type: 'on-air'
+				});
+				var videoE = document.getElementById('mainStream');
+				videoE.muted = false;
+				videoE.style.borderColor = 'red';
+				videoE.style.borderWidth = '0.6rem';
+				clickedStream.style.borderColor = 'white';
+				clickedStream.style.borderWidth = '0.2rem';
+			} else if (this.state.clickCount === 1) {
+				if (this.currentStream !== connection) {
+					sendAir(connection, {
+						type: 'ready'
+					});
+					clickedStream.style.borderColor = 'green';
+					clickedStream.style.borderWidth = '0.6rem';
+				}
+			}
+		}, 50);
 	};
 	
 	onSendText(message){
