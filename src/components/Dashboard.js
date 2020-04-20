@@ -163,6 +163,9 @@ function sendText(toIDs, message){
 		{
 			if(socketConnections[toID]===receiver){
 				socket.emit('text-message', toID, IDs, message);
+				// set display to message pending
+				document.getElementById(receiver + "Question").innerHTML = "Message: pending acknowledgement";
+
 			}
 		}
 	}
