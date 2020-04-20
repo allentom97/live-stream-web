@@ -77,8 +77,6 @@ export default class Response extends Component{
 				alert('Please enter a message')
 			}
 			this.onSendOptions();
-			// sends a not received option to let director know they didnt get the message
-			//this.props.sendingOptions(this.props.checked, [this.state.optionNoMessageReceived]);
 		} else {
 			alert('No Recipients Selected');
 		}
@@ -92,6 +90,7 @@ export default class Response extends Component{
 	onKeyDownHandler = e => {
 		if (e.keyCode === 13) {
 		  this.onSendMessage();
+		  e.preventDefault();
 		}
 	  };
 
@@ -107,15 +106,15 @@ export default class Response extends Component{
                 <div className="response-options-container">
                     <label className="option-label">
                         Option One: 
-                        <textarea className="option-area" rows="1" cols="25" value={this.state.optionOne} onChange={this.optionOneOnChange}></textarea>
+                        <textarea className="option-area" rows="1" cols="25" value={this.state.optionOne} onChange={this.optionOneOnChange} onKeyDown={this.onKeyDownHandler}></textarea>
                     </label>
                     <label className="option-label">
                         Option Two: 
-                        <textarea className="option-area" rows="1" cols="25" value={this.state.optionTwo} onChange={this.optionTwoOnChange}></textarea>
+                        <textarea className="option-area" rows="1" cols="25" value={this.state.optionTwo} onChange={this.optionTwoOnChange} onKeyDown={this.onKeyDownHandler}></textarea>
                     </label>
                     <label className="option-label">
                         Option Three: 
-                        <textarea className="option-area" rows="1" cols="25" value={this.state.optionThree} onChange={this.optionThreeOnChange}></textarea>
+                        <textarea className="option-area" rows="1" cols="25" value={this.state.optionThree} onChange={this.optionThreeOnChange} onKeyDown={this.onKeyDownHandler}></textarea>
                     </label>
 					<button className="response-button" onClick={this.onSendMessage}>Send Message</button>
                 </div>
