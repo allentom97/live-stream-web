@@ -13,8 +13,8 @@ const Previews = (props) => (
                         </div>
                         <video autoPlay muted className="preview-video" onClick={() => props.onPreviewClicked(index, connection)} id={index}> </video>
                         <p className="question-text" id={connection + "Question"}>Message:</p>
-                        <p className="option-text" id={connection}>Option:</p>
-                        
+                        <p className="question-text" id={connection + "Status"}>Status:</p>
+                        <p className="option-text" id={connection + "Option"}>Option:</p>
                     </div>
                 )
             })

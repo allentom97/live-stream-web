@@ -109,14 +109,14 @@ socket.on('message', async (socketID, message)=> {
 	}
 });
 
-socket.on('question-text', (socketName, message) => {
-	var id = socketName + "Question";
-	document.getElementById(id).innerHTML = "Message: " + message;
+socket.on('status', (socketName, message) => {
+	var text = "Status: " + message;
+	document.getElementById(socketName + "Status").innerHTML = text;
 });
 
 socket.on('options-response', (socketName, message) =>{	
 	var text = message;
-	document.getElementById(socketName).innerHTML = text;
+	document.getElementById(socketName + "Option").innerHTML = text;
 });
 
 function sendMessage(toID, message){
@@ -164,7 +164,8 @@ function sendText(toIDs, message){
 			if(socketConnections[toID]===receiver){
 				socket.emit('text-message', toID, IDs, message);
 				// set display to message pending
-				document.getElementById(receiver + "Question").innerHTML = "Message: pending acknowledgement";
+				document.getElementById(receiver + "Question").innerHTML = "Message: " + message;
+				document.getElementById(receiver + "Status").innerHTML = "Status: sent";
 
 			}
 		}
