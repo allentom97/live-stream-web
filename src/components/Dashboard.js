@@ -6,7 +6,7 @@ import Previews from './Previews';
 import io from 'socket.io-client';
 import PitchLayout from './PitchLayout';
 import CameraLayout from './CameraLayout';
-import Toggle from './Toggle';
+import StageLayout from './StageLayout';
 
 
 //const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
@@ -109,14 +109,14 @@ socket.on('message', async (socketID, message)=> {
 	}
 });
 
-socket.on('question-text', (socketName, message) => {
-	var id = socketName + "Question";
-	document.getElementById(id).innerHTML = "Message: " + message;
+socket.on('status', (socketName, message) => {
+	var text = "Status: " + message;
+	document.getElementById(socketName + "Status").innerHTML = text;
 });
 
 socket.on('options-response', (socketName, message) =>{	
 	var text = message;
-	document.getElementById(socketName).innerHTML = text;
+	document.getElementById(socketName + "Option").innerHTML = text;
 });
 
 function sendMessage(toID, message){
@@ -163,6 +163,10 @@ function sendText(toIDs, message){
 		{
 			if(socketConnections[toID]===receiver){
 				socket.emit('text-message', toID, IDs, message);
+				// set display to message pending
+				document.getElementById(receiver + "Question").innerHTML = "Message: " + message;
+				document.getElementById(receiver + "Status").innerHTML = "Status: sent";
+
 			}
 		}
 	}
@@ -208,6 +212,7 @@ export default class Dashboard extends Component {
 		this.onPreviewClicked = this.onPreviewClicked.bind(this);
 		this.onOutputClicked = this.onOutputClicked.bind(this);
 		this.onStreamsClicked = this.onStreamsClicked.bind(this);
+		this.toggleComponent = this.toggleComponent.bind(this);
 	}
 
 	state = {
@@ -222,13 +227,42 @@ export default class Dashboard extends Component {
 		directorStyle: {
 			flexDirection: 'row'
 		},
-		liveID: ''
+		liveID: '',
+		responseIsVisible: false,
+		pitchIsVisible: false,
+		cameraIsVisible: false,
+		stageIsVisible: false,
+		clickCount: 0,
+		previewClickedConnection: null
 	}
 
-
-	
 	componentDidMount(){
-		stateContainer = this;	
+		stateContainer = this;
+		document.addEventListener('keydown', this.onKeyDownHandler);	
+	}
+	
+	componentWillUnmount() {
+		document.removeEventListener('keydown', this.onKeyDownHandler);
+	}
+
+	toggleComponent(name){
+		if (name === 'response') {
+			this.setState({
+				responseIsVisible: !this.state.responseIsVisible
+			});
+		} else if (name === 'pitch') {
+			this.setState({
+				pitchIsVisible: !this.state.pitchIsVisible
+			});
+		} else if (name === 'camera') {
+			this.setState({
+				cameraIsVisible: !this.state.cameraIsVisible
+			});
+		} else if (name === 'stage') {
+			this.setState({
+				stageIsVisible: !this.state.stageIsVisible
+			});
+		}
 	}
 
 	onStreamsClicked(){
@@ -266,7 +300,6 @@ export default class Dashboard extends Component {
 		});
 	}
 
-	
 	onChecked(connection){
 		var check = this.state.checked;
 		if(check.includes(connection)){
@@ -284,20 +317,51 @@ export default class Dashboard extends Component {
 	};
 
 	onPreviewClicked(index, connection){
-		var stream = document.getElementById(index.toString()).srcObject;
-		document.getElementById('mainStream').srcObject = stream;
-		if (this.currentStream !== undefined) {
-			sendAir(this.state.currentStream, {
-				type: 'off-air'
+		var clickedStream = document.getElementById(index);
+		if (this.state.previewClickedConnection === connection) {
+			this.setState({
+				clickCount: this.state.clickCount + 1
+			});
+		} else {
+			this.setState({
+				clickCount: 1
 			});
 		}
 		this.setState({
-			currentStream: connection
+			previewClickedConnection: connection
 		});
-		sendAir(connection, {
-			type: 'on-air'
-		});
-		var videoE = document.getElementById('mainStream'); videoE.muted = false;
+		setTimeout(() => {
+
+			if (this.state.clickCount === 3) {
+				var stream = document.getElementById(index.toString()).srcObject;
+				document.getElementById('mainStream').srcObject = stream;
+				if (this.currentStream !== undefined) {
+					sendAir(this.state.currentStream, {
+						type: 'off-air'
+					});
+				}
+				this.setState({
+					currentStream: connection
+				});
+				sendAir(connection, {
+					type: 'on-air'
+				});
+				var videoE = document.getElementById('mainStream');
+				videoE.muted = false;
+				videoE.style.borderColor = 'red';
+				videoE.style.borderWidth = '0.6rem';
+				clickedStream.style.borderColor = 'white';
+				clickedStream.style.borderWidth = '0.2rem';
+			} else if (this.state.clickCount === 1) {
+				if (this.currentStream !== connection) {
+					sendAir(connection, {
+						type: 'ready'
+					});
+					clickedStream.style.borderColor = 'green';
+					clickedStream.style.borderWidth = '0.6rem';
+				}
+			}
+		}, 50);
 	};
 	
 	onSendText(message){
@@ -318,62 +382,52 @@ export default class Dashboard extends Component {
 				disabled={this.state.videoScreen}
 			/>
 			<div className="container">
-				<div className="dashboard-container" style={this.state.directorStyle}>
-					<div className="director-container">      
+				<div className="dashboard-container" onKeyDown={() => this.onKeyDownHandler} style={this.state.directorStyle}>
+					<div className="director-container" >      
 						<div > 
 							{this.state.videoScreen && 		
 								<Video
 									currentStream={this.state.currentStream}
 								/>
 							}
-							<Toggle>
-								{({on, toggle}) => (
-									<div>
-										<button className="toggle-button" onClick={toggle}>Response controls</button>
-										{on && 
-											<Response 
-												videoScreen={this.state.videoScreen}
-												onSendText={this.onSendText}
-												checked={this.state.checked}
-												sendingOptions={this.sendingOptions}
-											/>
-										}
-										
-									</div>
-								)}
-							</Toggle>
-							<Toggle>
-								{({on, toggle}) => (
-									<div>
-										<button className="toggle-button" onClick={toggle}>Pitch controls</button>
-										{on && 
-											<PitchLayout
-												videoScreen={this.state.videoScreen}
-												onSendText={this.onSendText}
-												checked={this.state.checked}
-												sendingOptions={this.sendingOptions}
-											/>
-										}
-										
-									</div>
-								)}
-							</Toggle>
-							<Toggle>
-								{({on, toggle}) => (
-								<div>
-									<button className="toggle-button" onClick={toggle}>Camera controls</button>
-									{on && 
-										<CameraLayout
-										videoScreen={this.state.videoScreen}
-										onSendText={this.onSendText}
-										checked={this.state.checked}
-										sendingOptions={this.sendingOptions}
-										/>
-									}
-									
-								</div>
-								)}
-							</Toggle>
+							<div>
+								<button className="toggle-button" onClick={() => this.toggleComponent("response")}>Response controls</button>
+								<button className="toggle-button" onClick={() => this.toggleComponent("pitch")}>Pitch controls</button>
+								<button className="toggle-button" onClick={() => this.toggleComponent("camera")}>Camera controls</button>
+								<button className="toggle-button" onClick={() => this.toggleComponent("stage")}>Stage controls</button>
+							</div>
+							{this.state.responseIsVisible && 
+								<Response 
+									videoScreen={this.state.videoScreen}
+									onSendText={this.onSendText}
+									checked={this.state.checked}
+									sendingOptions={this.sendingOptions}
+								/>
+							}
+							{this.state.pitchIsVisible && 
+								<PitchLayout
+									videoScreen={this.state.videoScreen}
+									onSendText={this.onSendText}
+									checked={this.state.checked}
+									sendingOptions={this.sendingOptions}
+								/>
+							}
+							{this.state.cameraIsVisible && 
+								<CameraLayout
+								videoScreen={this.state.videoScreen}
+								onSendText={this.onSendText}
+								checked={this.state.checked}
+								sendingOptions={this.sendingOptions}
+								/>
+							}
+							{this.state.stageIsVisible &&
+								<StageLayout
+									videoScreen={this.state.videoScreen}
+									onSendText={this.onSendText}
+									checked={this.state.checked}
+									sendingOptions={this.sendingOptions}
+								/>
+							}
 						</div>
 			  		</div>
 					<div>      
@@ -394,4 +448,12 @@ export default class Dashboard extends Component {
 }
 
 
+/*
 
+	// selection of preview by pressing ctrl + number
+	onKeyDownHandler(e) {
+		if (e.keyCode === 49 && e.ctrlKey) {
+		  this.onPreviewClicked('0', 'Tom');
+		}
+	  };
+*/
