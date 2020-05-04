@@ -72,7 +72,7 @@ export default class PitchLayout extends Component{
                     <div className="grid-middle-bottom" onClick={() => {this.handleMessage("Film middle of pitch")}}></div>
                     <div className="grid-endzone-bottom" onClick={() => {this.handleMessage("Film front right endzone")}}></div>
                 </div>
-                <button className="location-button" onClick={() => {this.handleMessage("Move to middle sideline")}}>__</button>                
+                <button className="location-button" onClick={() => {this.handleMessage("Move to middle sideline")}}>Sideline</button>                
             </div>
         );
     }

@@ -37,10 +37,10 @@
 }
 .response-button{
     display: inline-block;
-	border: 1px $burnt-orange;
+	border: 1px $material-grey-dark;
 	color: #fff;
 	text-decoration: none;
-	background-color: $burnt-orange;
+	background-color: $material-grey-dark;
 	font-size: 13px;
 	text-transform: uppercase;
 	font-weight: 600;
@@ -51,6 +51,14 @@
 	position: relative;
     outline: none;
     width: 150px;
+}
+
+.response-button:hover{
+    background-color: $material-grey-medium;
+}
+
+.response-button:action{
+    background-color: $material-grey-light;
 }
 
 .response-options-container{

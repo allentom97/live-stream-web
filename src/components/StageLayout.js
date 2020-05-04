@@ -56,19 +56,29 @@ export default class StageLayout extends Component {
                     <div className="grid-" onClick={() => {this.setMessage("Front left stage")}}></div>
                     <div className="grid-" onClick={() => {this.setMessage("Front middle stage")}}></div>
                     <div className="grid-" onClick={() => {this.setMessage("Front right stage")}}></div>
+                    <div className="grid-trough" onClick={() => {this.setMessage("Left trough")}}></div>
+                    <div className="grid-trough" onClick={() => {this.setMessage("Mid trough")}}></div>
+                    <div className="grid-trough" onClick={() => {this.setMessage("Right trough")}}></div>
                 </div>
+                <p className="stage-text">Crowd</p>
                 <div classname="options-bar">    
-                    <button className="shot-button" onClick={() => this.setMessage("Get whole band shot")}>Whole band shot</button>
-                    <button className="shot-button" onClick={() => this.setMessage("Close up of singer")}>Close up singer</button>
-                    <button className="shot-button" onClick={() => this.setMessage("Get a low shot ")}>Low front stage</button>
-                    <button className="shot-button" onClick={() => this.setMessage("Behind singer to crowd ")}>Behind singer</button>
+                    <button className="shot-button" onClick={() => this.setMessage("Wide stage shot")}>Wide Of Stage/</button>
+                    <button className="shot-button" onClick={() => this.setMessage("Wide band shot")}>Wide of Band</button>
+                    <button className="shot-button" onClick={() => this.setMessage("Wide of musician")}>Wide Musician</button>
+                    <button className="shot-button" onClick={() => this.setMessage("Wide crowd shot")}>Wide crowd</button>
                 </div>
                 <div classname="options-bar">    
                     <button className="shot-button" onClick={() => this.setMessage("Get front row crowd close up")}>Crowd close</button>
-                    <button className="shot-button" onClick={() => this.setMessage("Wide crowd shot")}>Wide crowd</button>
+                    <button className="shot-button" onClick={() => this.setMessage("Behind singer to crowd ")}>Out to crowd</button>
                     <button className="shot-button" onClick={() => this.setMessage("Pan crowd")}>Pan full crowd</button>
                     <button className="shot-button" onClick={() => this.setMessage("Inside crowd shot")}>Inside crowd</button>
-                </div>       
+                </div>
+                <div>
+                    <button className="shot-button" onClick={() => this.setMessage("Close up of singer")}>Close up singer</button>
+                    <button className="shot-button" onClick={() => this.setMessage("Get a low shot ")}>Low band shot</button>
+                    <button className="shot-button" onClick={() => this.setMessage("Medium musician")}>Medium Musician</button>
+                    <button className="shot-button" onClick={() => this.setMessage("Close up instrument")}>Close up instrument</button>
+                </div>
             </div>
         )
     }

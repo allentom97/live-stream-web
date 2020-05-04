@@ -6,10 +6,10 @@
 .toggle-button{
     display: inline-block;
     border: 5px thick;
-    border-color: $burnt-orange;
-    color: $burnt-orange;
+    border-color: $material-grey-dark;
+    color: white;
     text-decoration: none;
-    background-color: white;
+    background-color: $material-grey-dark;
     padding: 3px;
     font-size: 13px;
     text-transform: uppercase;
@@ -20,4 +20,39 @@
     position: relative;
     outline: none;
     margin: 2px;
+}
+
+.toggle-button:hover{
+    background-color: $material-grey-medium;
+}
+
+.toggle-button:active{
+    background-color: $material-grey-light;
+}
+
+.reset-button{
+    display: inline-block;
+    border: 5px thick;
+    border-color: $material-red-dark;
+    color: white;
+    text-decoration: none;
+    background-color: $material-red-dark;
+    padding: 3px;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    outline: none;
+    margin: 2px;
+}
+
+.reset-button:hover{
+    background-color: $material-red;
+}
+
+.reset-button:active{
+    background-color: $material-red-light;
 }
