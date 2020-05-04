@@ -30,32 +30,84 @@
 }
 
 .location-button{
-    font-family: sans-serif;
-    font-size: $s-size;
-    margin-left: $s-size;
-    background-color: $burnt-orange;
-    border: $burnt-orange;
-    color: $burnt-orange;
+    display: inline-block;
+	border: 10px none white;
+	color: #fff;
+	text-decoration: none;
+	background-color: $material-blue-dark;
+	padding: 10px;
+	font-size: 13px;
+	text-transform: uppercase;
+	font-weight: 600;
+	letter-spacing: 1px;
+	border-radius: 10px;
+	text-align: center;
+	position: relative;
+    outline: none;
+    width: 110px;
+    margin: 2px;
+}
+
+.location-button:hover{
+	background-color: $material-blue;
+}
+
+.location-button:active{
+	background-color: $material-blue-light;
 }
 
 .team-a-button{
-    font-family: sans-serif;
-    font-size: $s-size;
-    margin-left: $s-size;
-    padding: 2px;
-    background-color:  red;
-    border: red;
-    color: #ffffff;
+    display: inline-block;
+	border: 10px none white;
+	color: #fff;
+	text-decoration: none;
+	background-color: $material-red-dark;
+	padding: 10px;
+	font-size: 13px;
+	text-transform: uppercase;
+	font-weight: 600;
+	letter-spacing: 1px;
+	border-radius: 10px;
+	text-align: center;
+	position: relative;
+    outline: none;
+    width: 110px;
+    margin: 2px;
+}
+
+.team-a-button:hover{
+	background-color: $material-red;
+}
+
+.team-a-button:active{
+	background-color: $material-red-light;
 }
 
 .team-b-button{
-    font-family: sans-serif;
-    font-size: $s-size;
-    margin-left: $s-size;
-    padding: 2px;
-    background-color: blue;
-    border: blue;
-    color: #ffffff;
+    display: inline-block;
+	border: 10px none white;
+	color: #fff;
+	text-decoration: none;
+	background-color: $material-blue-dark;
+	padding: 10px;
+	font-size: 13px;
+	text-transform: uppercase;
+	font-weight: 600;
+	letter-spacing: 1px;
+	border-radius: 10px;
+	text-align: center;
+	position: relative;
+    outline: none;
+    width: 110px;
+    margin: 2px;
+}
+
+.team-b-button:hover{
+	background-color: $material-blue;
+}
+
+.team-b-button:active{
+	background-color: $material-blue-light;
 }
 
 .pitch-grid {

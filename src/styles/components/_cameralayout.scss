@@ -17,7 +17,7 @@
 	border: 10px none white;
 	color: #fff;
 	text-decoration: none;
-	background-color: $burnt-orange;
+	background-color: $pastel-blue-dark;
 	padding: 10px;
 	font-size: 13px;
 	text-transform: uppercase;
@@ -31,12 +31,20 @@
     margin: 2px;
 }
 
+.camera-button:hover{
+	background-color: $pastel-blue-medium;
+}
+
+.camera-button:active{
+	background-color: $pastel-blue-light;
+}
+
 .shot-button{
     display: inline-block;
 	border: 10px none white;
 	color: #fff;
 	text-decoration: none;
-	background-color: lightseagreen;
+	background-color: $material-blue-dark;
 	padding: 10px;
 	font-size: 13px;
 	text-transform: uppercase;
@@ -49,6 +57,15 @@
     width: 110px;
     margin: 2px;
 }
+
+.shot-button:hover{
+	background-color: $material-blue;
+}
+
+.shot-button:active{
+	background-color: $material-blue-light;
+}
+
 
 .options-bar{
     border: 5px none black;

@@ -20,10 +20,10 @@ body {
 .toggle-button {
   display: inline-block;
   border: 5px thick;
-  border-color: #FC5124;
-  color: #FC5124;
+  border-color: rgba(58, 58, 58, 0.9);
+  color: white;
   text-decoration: none;
-  background-color: white;
+  background-color: rgba(58, 58, 58, 0.9);
   padding: 3px;
   font-size: 13px;
   text-transform: uppercase;
@@ -35,27 +35,67 @@ body {
   outline: none;
   margin: 2px; }
 
+.toggle-button:hover {
+  background-color: rgba(58, 58, 58, 0.6); }
+
+.toggle-button:active {
+  background-color: rgba(58, 58, 58, 0.3); }
+
+.reset-button {
+  display: inline-block;
+  border: 5px thick;
+  border-color: #d32f2f;
+  color: white;
+  text-decoration: none;
+  background-color: #d32f2f;
+  padding: 3px;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  outline: none;
+  margin: 2px; }
+
+.reset-button:hover {
+  background-color: #9a0007; }
+
+.reset-button:active {
+  background-color: #ff6659; }
+
 .header {
-  background: #FC5124;
+  background: rgba(58, 58, 58, 0.9);
   margin-bottom: 1.6rem;
   display: flex;
   align-items: center; }
 
 .heading-text {
   font-size: 1.6rem;
-  padding: 0;
+  padding: 2px;
   margin-left: 1.2rem;
   padding-right: 1.2rem;
-  border-right: 0.2rem solid #ea3303; }
+  color: white;
+  letter-spacing: 1px; }
 
 .header-button {
   margin: 0 0 0 1.2rem;
   padding-right: 1.2rem;
   border: none;
-  border-right: 0.2rem solid #ea3303;
-  background: #FC5124;
   font-size: 1.2rem;
-  color: black; }
+  color: white;
+  background-color: rgba(58, 58, 58, 0); }
+
+.header-button:hover {
+  background-color: white;
+  color: rgba(58, 58, 58, 0.9);
+  border-radius: 10px; }
+
+.header-button:active {
+  background-color: white;
+  color: rgba(58, 58, 58, 0.3);
+  border-radius: 10px; }
 
 .previews-container {
   margin: 0.8rem;
@@ -178,10 +218,10 @@ input[type=checkbox] {
 
 .response-button {
   display: inline-block;
-  border: 1px #FC5124;
+  border: 1px rgba(58, 58, 58, 0.9);
   color: #fff;
   text-decoration: none;
-  background-color: #FC5124;
+  background-color: rgba(58, 58, 58, 0.9);
   font-size: 13px;
   text-transform: uppercase;
   font-weight: 600;
@@ -192,6 +232,12 @@ input[type=checkbox] {
   position: relative;
   outline: none;
   width: 150px; }
+
+.response-button:hover {
+  background-color: rgba(58, 58, 58, 0.6); }
+
+.response-button:action {
+  background-color: rgba(58, 58, 58, 0.3); }
 
 .response-options-container {
   margin: 0.8rem;
@@ -247,30 +293,76 @@ input[type=checkbox] {
   vertical-align: middle; }
 
 .location-button {
-  font-family: sans-serif;
-  font-size: 1.2rem;
-  margin-left: 1.2rem;
-  background-color: #FC5124;
-  border: #FC5124;
-  color: #FC5124; }
+  display: inline-block;
+  border: 10px none white;
+  color: #fff;
+  text-decoration: none;
+  background-color: #008ba3;
+  padding: 10px;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  outline: none;
+  width: 110px;
+  margin: 2px; }
+
+.location-button:hover {
+  background-color: #00bcd4; }
+
+.location-button:active {
+  background-color: #62efff; }
 
 .team-a-button {
-  font-family: sans-serif;
-  font-size: 1.2rem;
-  margin-left: 1.2rem;
-  padding: 2px;
-  background-color: red;
-  border: red;
-  color: #ffffff; }
+  display: inline-block;
+  border: 10px none white;
+  color: #fff;
+  text-decoration: none;
+  background-color: #d32f2f;
+  padding: 10px;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  outline: none;
+  width: 110px;
+  margin: 2px; }
+
+.team-a-button:hover {
+  background-color: #9a0007; }
+
+.team-a-button:active {
+  background-color: #ff6659; }
 
 .team-b-button {
-  font-family: sans-serif;
-  font-size: 1.2rem;
-  margin-left: 1.2rem;
-  padding: 2px;
-  background-color: blue;
-  border: blue;
-  color: #ffffff; }
+  display: inline-block;
+  border: 10px none white;
+  color: #fff;
+  text-decoration: none;
+  background-color: #008ba3;
+  padding: 10px;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  outline: none;
+  width: 110px;
+  margin: 2px; }
+
+.team-b-button:hover {
+  background-color: #00bcd4; }
+
+.team-b-button:active {
+  background-color: #62efff; }
 
 .pitch-grid {
   display: grid;
@@ -355,7 +447,7 @@ input[type=checkbox] {
   border: 10px none white;
   color: #fff;
   text-decoration: none;
-  background-color: #FC5124;
+  background-color: rgba(32, 178, 170, 0.9);
   padding: 10px;
   font-size: 13px;
   text-transform: uppercase;
@@ -368,12 +460,18 @@ input[type=checkbox] {
   width: 110px;
   margin: 2px; }
 
+.camera-button:hover {
+  background-color: rgba(32, 178, 170, 0.6); }
+
+.camera-button:active {
+  background-color: rgba(32, 178, 170, 0.3); }
+
 .shot-button {
   display: inline-block;
   border: 10px none white;
   color: #fff;
   text-decoration: none;
-  background-color: lightseagreen;
+  background-color: #008ba3;
   padding: 10px;
   font-size: 13px;
   text-transform: uppercase;
@@ -385,6 +483,12 @@ input[type=checkbox] {
   outline: none;
   width: 110px;
   margin: 2px; }
+
+.shot-button:hover {
+  background-color: #00bcd4; }
+
+.shot-button:active {
+  background-color: #62efff; }
 
 .options-bar {
   border: 5px none black;
@@ -406,6 +510,9 @@ input[type=checkbox] {
   align-items: center;
   justify-content: center;
   vertical-align: middle; }
+
+.stage-text {
+  font-size: 15px; }
 
 .button-container {
   margin-left: auto;
@@ -429,8 +536,15 @@ input[type=checkbox] {
 
 .grid- {
   background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.3);
   padding: 25px;
-  padding-bottom: 40px;
+  padding-bottom: 30px;
+  font-size: 30px;
+  text-align: center; }
+
+.grid-trough {
+  background-color: rgba(58, 58, 58, 0.3);
+  padding: 25px;
+  padding-bottom: 10px;
   font-size: 30px;
   text-align: center; }

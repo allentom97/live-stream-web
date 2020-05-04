@@ -7,6 +7,7 @@ import io from 'socket.io-client';
 import PitchLayout from './PitchLayout';
 import CameraLayout from './CameraLayout';
 import StageLayout from './StageLayout';
+import Toast from 'light-toast'; // third party library - https://github.com/xinkule/light-toast version 0.1.9 -- https://www.npmjs.com/package/light-toast/v/0.1.9
 
 
 //const socket = io('http://ldb-broadcasting-server.herokuapp.com:80');
@@ -112,6 +113,9 @@ socket.on('message', async (socketID, message)=> {
 socket.on('status', (socketName, message) => {
 	var text = "Status: " + message;
 	document.getElementById(socketName + "Status").innerHTML = text;
+	if(message === 'replied') {
+		document.getElementById(socketName + "Status").style.color = 'green';
+	}
 });
 
 socket.on('options-response', (socketName, message) =>{	
@@ -166,7 +170,8 @@ function sendText(toIDs, message){
 				// set display to message pending
 				document.getElementById(receiver + "Question").innerHTML = "Message: " + message;
 				document.getElementById(receiver + "Status").innerHTML = "Status: sent";
-
+				document.getElementById(receiver + "Option").innerHTML = 'Option:';
+				document.getElementById(receiver + "Status").style.color = 'black';
 			}
 		}
 	}
@@ -213,6 +218,7 @@ export default class Dashboard extends Component {
 		this.onOutputClicked = this.onOutputClicked.bind(this);
 		this.onStreamsClicked = this.onStreamsClicked.bind(this);
 		this.toggleComponent = this.toggleComponent.bind(this);
+		this.onSendReset = this.onSendReset.bind(this);
 	}
 
 	state = {
@@ -233,7 +239,8 @@ export default class Dashboard extends Component {
 		cameraIsVisible: false,
 		stageIsVisible: false,
 		clickCount: 0,
-		previewClickedConnection: null
+		previewClickedConnection: null,
+		previewStream: null 
 	}
 
 	componentDidMount(){
@@ -323,15 +330,18 @@ export default class Dashboard extends Component {
 				clickCount: this.state.clickCount + 1
 			});
 		} else {
+			if(this.state.previewStream !== null) {
+				document.getElementById(this.previewStream).borderColor = 'white';
+			}
 			this.setState({
-				clickCount: 1
+				clickCount: 1,
+				previewStream: connection
 			});
 		}
 		this.setState({
 			previewClickedConnection: connection
 		});
 		setTimeout(() => {
-
 			if (this.state.clickCount === 3) {
 				var stream = document.getElementById(index.toString()).srcObject;
 				document.getElementById('mainStream').srcObject = stream;
@@ -363,6 +373,12 @@ export default class Dashboard extends Component {
 			}
 		}, 50);
 	};
+
+	onSendReset(message){
+		sendText(this.state.connections, message);
+		// show director notification as feedback
+		Toast.success("'" + message + "' sent to all", 500, () => {});
+	}
 	
 	onSendText(message){
 		sendText(this.state.checked, message);
@@ -395,6 +411,7 @@ export default class Dashboard extends Component {
 								<button className="toggle-button" onClick={() => this.toggleComponent("pitch")}>Pitch controls</button>
 								<button className="toggle-button" onClick={() => this.toggleComponent("camera")}>Camera controls</button>
 								<button className="toggle-button" onClick={() => this.toggleComponent("stage")}>Stage controls</button>
+								<button className="reset-button" onClick={() => this.onSendReset("Reset Positions")}>RESET POSITIONS</button>
 							</div>
 							{this.state.responseIsVisible && 
 								<Response 
@@ -446,14 +463,3 @@ export default class Dashboard extends Component {
 	);
 	}
 }
-
-
-/*
-
-	// selection of preview by pressing ctrl + number
-	onKeyDownHandler(e) {
-		if (e.keyCode === 49 && e.ctrlKey) {
-		  this.onPreviewClicked('0', 'Tom');
-		}
-	  };
-*/

@@ -1,5 +1,5 @@
 .header {
-    background: $burnt-orange;
+    background: $material-grey-dark;
     margin-bottom: $m-size;
     display: flex;
     align-items: center;
@@ -7,18 +7,30 @@
 
 .heading-text {
     font-size: $m-size;
-    padding: 0;
+    padding: 2px;
     margin-left: $s-size;
     padding-right: $s-size;
-    border-right: .2rem solid darken($burnt-orange, 10);
+    color: white;
+    letter-spacing: 1px;
 }
 
 .header-button{
     margin: 0 0 0 $s-size;
     padding-right: $s-size;
     border: none;
-    border-right: .2rem solid darken($burnt-orange, 10);
-    background: $burnt-orange;
     font-size: $s-size;
-    color: black;
+    color: white;
+    background-color: rgba(58,58,58,0.0);
+}
+
+.header-button:hover{
+    background-color: white;
+    color: $material-grey-dark;
+    border-radius: 10px;
+}
+
+.header-button:active{
+    background-color: white;
+    color: $material-grey-light;
+    border-radius: 10px;
 }
